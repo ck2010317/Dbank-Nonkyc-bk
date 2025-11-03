@@ -18,6 +18,11 @@ yarn-error.log*
 
 # env files
 .env*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # vercel
 .vercel
@@ -25,3 +30,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/scripts/admin_*.sql
+/scripts/add_preload_card_*.sql
+/scripts/remove_*.sql
+/scripts/add_old_transaction_to_blacklist.sql
+/scripts/verify_and_remove_duplicate_credits.sql
+
+**/sensitive/
+**/private/
+*.backup
+*.dump
