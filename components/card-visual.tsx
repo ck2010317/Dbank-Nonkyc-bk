@@ -116,6 +116,25 @@ export function CardVisual({
             </div>
           </div>
         </div>
+
+        <div className="absolute bottom-6 right-6">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 opacity-80">
+            <rect
+              x="10"
+              y="25"
+              width="80"
+              height="50"
+              rx="8"
+              fill="rgba(255, 255, 255, 0.2)"
+              stroke="white"
+              strokeWidth="2"
+            />
+            <rect x="20" y="35" width="15" height="12" rx="2" fill="white" opacity="0.8" />
+            <line x1="20" y1="55" x2="50" y2="55" stroke="white" strokeWidth="2" opacity="0.6" />
+            <line x1="20" y1="62" x2="40" y2="62" stroke="white" strokeWidth="2" opacity="0.6" />
+            <path d="M 60 40 L 60 60 Q 75 60 75 50 Q 75 40 60 40 Z" fill="white" opacity="0.9" />
+          </svg>
+        </div>
       </div>
     </div>
   )
