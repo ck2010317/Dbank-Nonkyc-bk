@@ -35,15 +35,65 @@ export default function HomePage() {
               Dashboard
             </Link>
           </nav>
-          <Link href="/dashboard">
-            <Button>Get Started</Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://t.me/dbank_insiders"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Telegram"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m22 2-7 20-4-9-9-4Z" />
+                <path d="M22 2 11 13" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/official_dbank"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="X (Twitter)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+              </svg>
+            </a>
+            <Link href="/dashboard">
+              <Button>Get Started</Button>
+            </Link>
+          </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-medium mb-3">
+            <Shield className="w-4 h-4" />
+            <span>Non-KYC Cards • No Identity Verification Required</span>
+          </div>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Zap className="w-4 h-4" />
             <span>Instant Card Issuance</span>
@@ -88,7 +138,7 @@ export default function HomePage() {
               </div>
               <CardTitle>Instant Card Creation</CardTitle>
               <CardDescription>
-                Create virtual prepaid cards in seconds with just an email and phone number
+                Create virtual prepaid cards in seconds. No KYC required - just email and phone number
               </CardDescription>
             </CardHeader>
           </Card>
@@ -108,8 +158,10 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-primary" />
               </div>
-              <CardTitle>Security Controls</CardTitle>
-              <CardDescription>Freeze and unfreeze cards instantly for complete security control</CardDescription>
+              <CardTitle>Privacy & Security</CardTitle>
+              <CardDescription>
+                Non-KYC cards with instant freeze/unfreeze controls for complete security
+              </CardDescription>
             </CardHeader>
           </Card>
 

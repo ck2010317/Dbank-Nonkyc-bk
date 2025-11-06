@@ -82,8 +82,8 @@ export default function BuyCreditsPage() {
 
   const calculateCredits = (amt: string) => {
     const numAmount = Number.parseFloat(amt)
-    if (isNaN(numAmount) || numAmount < 15) return 0
-    return Math.floor(numAmount / 15)
+    if (isNaN(numAmount) || numAmount < 35) return 0
+    return Math.floor(numAmount / 35)
   }
 
   return (
@@ -113,7 +113,7 @@ export default function BuyCreditsPage() {
               <div className="space-y-2">
                 <h3 className="font-semibold text-sm">Step 1: Send Payment</h3>
                 <p className="text-sm text-muted-foreground">
-                  Send USDT or USDC to the wallet address below. Each credit costs $15.
+                  Send USDT or USDC to the wallet address below. Each credit costs $35.
                 </p>
                 <div className="bg-background rounded-lg p-3 border border-border">
                   <Label className="text-xs text-muted-foreground">Wallet Address</Label>
@@ -146,9 +146,9 @@ export default function BuyCreditsPage() {
                 <AlertTitle className="text-blue-500">Pricing</AlertTitle>
                 <AlertDescription className="text-sm text-blue-400">
                   <ul className="list-disc list-inside space-y-1 mt-2">
-                    <li>1 Credit = $15 USDT/USDC = 1 Card</li>
-                    <li>5 Credits = $75 USDT/USDC = 5 Cards</li>
-                    <li>10 Credits = $150 USDT/USDC = 10 Cards</li>
+                    <li>1 Credit = $35 USDT/USDC = 1 Card</li>
+                    <li>5 Credits = $175 USDT/USDC = 5 Cards</li>
+                    <li>10 Credits = $350 USDT/USDC = 10 Cards</li>
                   </ul>
                 </AlertDescription>
               </Alert>
@@ -210,14 +210,14 @@ export default function BuyCreditsPage() {
                       id="amount"
                       type="number"
                       step="0.01"
-                      min="15"
-                      placeholder="15.00"
+                      min="35"
+                      placeholder="35.00"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       required
                       className="bg-background border-border"
                     />
-                    {amount && Number.parseFloat(amount) >= 15 && (
+                    {amount && Number.parseFloat(amount) >= 35 && (
                       <p className="text-xs text-muted-foreground">
                         You will receive {calculateCredits(amount)} credits
                       </p>

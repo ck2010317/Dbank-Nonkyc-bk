@@ -285,8 +285,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    if (amount < 15) {
-      return NextResponse.json({ error: "Minimum payment is $15 (1 credit)" }, { status: 400 })
+    if (amount < 35) {
+      return NextResponse.json({ error: "Minimum payment is $35 (1 credit)" }, { status: 400 })
     }
 
     const supabase = await createClient()
@@ -394,10 +394,10 @@ export async function POST(request: Request) {
     }
 
     const actualAmount = verification.actualAmount || amount
-    const creditsToAdd = Math.floor(actualAmount / 15)
+    const creditsToAdd = Math.floor(actualAmount / 35)
 
     if (creditsToAdd < 1) {
-      return NextResponse.json({ error: "Amount too low. Minimum $15 for 1 credit" }, { status: 400 })
+      return NextResponse.json({ error: "Amount too low. Minimum $35 for 1 credit" }, { status: 400 })
     }
 
     const { data: profile, error: profileError } = await supabaseAdmin
