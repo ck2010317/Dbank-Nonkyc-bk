@@ -21,12 +21,12 @@ interface TopUpDialogProps {
 }
 
 const TOPUP_AMOUNTS = [
-  { amount: 35, credits: 1 },
-  { amount: 70, credits: 2 },
-  { amount: 105, credits: 3 },
-  { amount: 140, credits: 4 },
-  { amount: 175, credits: 5 },
-  { amount: 245, credits: 7 },
+  { amount: 15, credits: 1 },
+  { amount: 30, credits: 2 },
+  { amount: 45, credits: 3 },
+  { amount: 60, credits: 4 },
+  { amount: 75, credits: 5 },
+  { amount: 100, credits: 7 }, // Rounded up: 100/15 = 6.67 → 7 credits
 ]
 
 export function TopUpDialog({ cardId, onSuccess }: TopUpDialogProps) {
@@ -142,7 +142,7 @@ export function TopUpDialog({ cardId, onSuccess }: TopUpDialogProps) {
               <span className="text-2xl font-bold text-primary">{userCredits}</span>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Each credit = $35 | Total value: ${(userCredits * 35).toFixed(2)}
+              Each credit = $15 | Total value: ${(userCredits * 15).toFixed(2)}
             </p>
           </div>
 

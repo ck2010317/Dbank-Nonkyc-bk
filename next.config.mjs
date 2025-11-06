@@ -9,7 +9,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // For iOS app, it will connect to the live web API instead of static export
 }
 
 export default nextConfig
