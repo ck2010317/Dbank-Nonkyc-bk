@@ -3,14 +3,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CreditCard, Plus, History, Wallet, Shield, Zap, ArrowRight, Lock, Globe } from "lucide-react"
 import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
-import { DbankLogo } from "@/components/dbank-logo"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/40 bg-background/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-5 flex items-center justify-between">
-          <DbankLogo className="w-9 h-9" textClassName="text-xl" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+              <CreditCard className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">dbank</span>
+          </div>
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="#features"
@@ -250,7 +254,12 @@ export default function HomePage() {
       <footer className="border-t border-border/40 bg-card/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <DbankLogo className="w-8 h-8" textClassName="text-lg" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <CreditCard className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <span className="font-bold text-lg">dbank</span>
+            </div>
             <p className="text-sm text-muted-foreground">© 2025 dbank. All rights reserved.</p>
           </div>
         </div>

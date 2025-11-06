@@ -37,7 +37,14 @@ next-env.d.ts
 /scripts/add_old_transaction_to_blacklist.sql
 /scripts/verify_and_remove_duplicate_credits.sql
 
+# Capacitor
+ios/App/Podfile.lock
+ios/App/Pods
+android/
+
 **/sensitive/
 **/private/
 *.backup
 *.dump
+
+.DS_Store
