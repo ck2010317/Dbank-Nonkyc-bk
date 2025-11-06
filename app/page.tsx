@@ -2,7 +2,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CreditCard, Plus, History, Wallet, Shield, Zap } from "lucide-react"
-import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
 
 export default function HomePage() {
   return (
@@ -122,9 +121,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3D Card Showcase Section */}
-      <ThreeDCardShowcase />
-
       {/* Features Grid */}
       <section id="features" className="container mx-auto px-4 py-20">
         <div className="text-center mb-12">
@@ -206,7 +202,7 @@ export default function HomePage() {
         <Card className="bg-gradient-to-br from-primary/20 to-primary/5 border-primary/20">
           <CardContent className="p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
               Join thousands of users managing their digital cards with dbank
             </p>
             <Link href="/dashboard">
