@@ -264,7 +264,7 @@ export default function DashboardPage() {
             <AlertCircle className="h-4 w-4 text-yellow-500" />
             <AlertTitle className="text-yellow-500">No Credits Available</AlertTitle>
             <AlertDescription className="text-sm text-muted-foreground">
-              You need credits to create cards. Each card costs 1 credit ($35 USDT/USDC).
+              You need credits to create cards. Each card costs 1 credit ($30 USDT/USDC).
               <div className="mt-3">
                 <Button size="sm" asChild>
                   <Link href="/buy-credits">
@@ -294,7 +294,7 @@ export default function DashboardPage() {
               <Info className="h-4 w-4 text-blue-500" />
               <AlertTitle className="text-blue-500">No Cards Yet</AlertTitle>
               <AlertDescription className="text-sm text-muted-foreground">
-                You need credits to create cards. Each card costs 1 credit ($35 USDT/USDC).
+                You need credits to create cards. Each card costs 1 credit ($30 USDT/USDC).
                 <ul className="list-disc list-inside mt-2 space-y-1">
                   <li>Contact the admin to purchase credits</li>
                   <li>Send payment via USDT/USDC</li>

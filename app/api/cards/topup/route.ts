@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
 
     console.log("[v0] Credit-based top-up request:", { cardId, amount })
 
-    if (amount < 35 || amount % 35 !== 0) {
-      return NextResponse.json({ error: "Amount must be a multiple of $35 (minimum $35)" }, { status: 400 })
+    if (amount < 30 || amount % 30 !== 0) {
+      return NextResponse.json({ error: "Amount must be a multiple of $30 (minimum $30)" }, { status: 400 })
     }
 
     const supabase = await createClient()
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const creditsNeeded = Math.ceil(amount / 35)
+    const creditsNeeded = Math.ceil(amount / 30)
     console.log("[v0] Credits needed:", creditsNeeded)
 
     const { data: profile, error: profileError } = await supabase

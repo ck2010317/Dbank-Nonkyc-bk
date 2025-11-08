@@ -33,15 +33,15 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const body = await request.json()
     const { amount } = body
 
-    if (!amount || amount < 35) {
-      return NextResponse.json({ error: "Minimum top-up amount is $35" }, { status: 400 })
+    if (!amount || amount < 30) {
+      return NextResponse.json({ error: "Minimum top-up amount is $30" }, { status: 400 })
     }
 
-    if (amount % 35 !== 0) {
-      return NextResponse.json({ error: "Top-up amount must be in increments of $35" }, { status: 400 })
+    if (amount % 30 !== 0) {
+      return NextResponse.json({ error: "Top-up amount must be in increments of $30" }, { status: 400 })
     }
 
-    const creditsNeeded = amount / 35
+    const creditsNeeded = amount / 30
 
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
