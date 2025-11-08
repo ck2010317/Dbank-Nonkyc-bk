@@ -24,7 +24,7 @@ interface DepositProofDialogProps {
   onSuccess?: () => void
 }
 
-const DEPOSIT_ADDRESS = "0xeAd07a01AD220AD359680E77C227535E9811Fd24"
+const DEPOSIT_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
 
 export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositProofDialogProps) {
   const [currency, setCurrency] = useState("usdt")

@@ -1,7 +1,7 @@
 // Blockchain transaction verification utility
 // Supports automatic verification of ERC20 token transfers
 
-const DEPOSIT_ADDRESS = "0xeAd07a01AD220AD359680E77C227535E9811Fd24"
+const DEPOSIT_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
 
 // USDT contract address on Ethereum mainnet
 const USDT_CONTRACT = "0xdac17f958d2ee523a2206206994597c13d831ec7"

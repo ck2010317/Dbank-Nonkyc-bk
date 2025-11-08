@@ -3,7 +3,7 @@ import { createClient as createAdminClient } from "@supabase/supabase-js"
 import { NextResponse } from "next/server"
 
 const EXPECTED_PAYMENT_AMOUNT = 30 // $30 for preload cards
-const PAYMENT_WALLET_ADDRESS = "0xaCafF1D35Fff8CE718c51EDA1b633687C4F56fd6"
+const PAYMENT_WALLET_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "67GSQJI8I7B6JVQD6MG2DR5EGJDFXHN5S6"
 const BASESCAN_API_KEY = process.env.BASESCAN_API_KEY || ""
 const CHAIN_ID = 8453 // Base network

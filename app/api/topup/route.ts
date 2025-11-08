@@ -5,8 +5,8 @@ const API_KEY = "b2b_JIL2vsbGBQJoiQoW-4UxjmZ3ktCHP5rDh44aOZBnIrI"
 // These should be set in your Vercel project settings or .env file
 const PAYMENT_CONFIG = {
   crypto: {
-    usdt_address: process.env.USDT_DEPOSIT_ADDRESS || "0xeAd07a01AD220AD359680E77C227535E9811Fd24",
-    usdc_address: process.env.USDC_DEPOSIT_ADDRESS || "0xeAd07a01AD220AD359680E77C227535E9811Fd24",
+    usdt_address: process.env.USDT_DEPOSIT_ADDRESS || "0x46278303c6ffe76eda245d5e6c4cf668231f73a2",
+    usdc_address: process.env.USDC_DEPOSIT_ADDRESS || "0x46278303c6ffe76eda245d5e6c4cf668231f73a2",
     btc_address: process.env.BTC_DEPOSIT_ADDRESS || "",
   },
   bank: {

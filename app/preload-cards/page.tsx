@@ -28,7 +28,7 @@ export default function PreloadCardsPage() {
   const [transactionHash, setTransactionHash] = useState("")
   const { toast } = useToast()
 
-  const PAYMENT_ADDRESS = "0xaCafF1D35Fff8CE718c51EDA1b633687C4F56fd6"
+  const PAYMENT_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
 
   useEffect(() => {
     fetchCards()

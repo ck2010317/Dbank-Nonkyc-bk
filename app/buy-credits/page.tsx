@@ -22,7 +22,7 @@ export default function BuyCreditsPage() {
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
 
-  const WALLET_ADDRESS = "0xaCafF1D35Fff8CE718c51EDA1b633687C4F56fd6"
+  const WALLET_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(WALLET_ADDRESS)

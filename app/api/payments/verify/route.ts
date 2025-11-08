@@ -375,7 +375,7 @@ export async function POST(request: Request) {
 
     const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "67GSQJI8I7B6JVQD6MG2DR5EGJDFXHN5S6"
 
-    const paymentWallet = "0xaCafF1D35Fff8CE718c51EDA1b633687C4F56fd6"
+    const paymentWallet = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
     const normalizedNetwork = network.toLowerCase()
     const verification = await verifyTransactionOnBlockchain(
       transactionHash,

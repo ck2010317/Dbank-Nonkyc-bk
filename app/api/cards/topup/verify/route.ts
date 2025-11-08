@@ -160,7 +160,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to check transaction" }, { status: 500 })
     }
 
-    const paymentWallet = "0xaCafF1D35Fff8CE718c51EDA1b633687C4F56fd6"
+    const paymentWallet = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
     const normalizedNetwork = network.toLowerCase()
     const normalizedCurrency = currency.toLowerCase()
 
