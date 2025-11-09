@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
       title: body.title,
       email: body.email,
       phone_number: body.phone_number,
-      card_commission_id: body.card_commission_id || "3",
+      card_commission_id: body.card_commission_id || "5",
       currency_id: body.currency_id,
     }
 

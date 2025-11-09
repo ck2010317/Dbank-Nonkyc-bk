@@ -32,7 +32,7 @@ export function CreateCardDialog({ onCardCreated, userCredits }: { onCardCreated
     title: "",
     email: "",
     phone_number: "",
-    card_commission_id: 3,
+    card_commission_id: 5,
     currency_id: "",
   })
   const { toast } = useToast()
@@ -104,7 +104,7 @@ export function CreateCardDialog({ onCardCreated, userCredits }: { onCardCreated
         title: "",
         email: "",
         phone_number: "",
-        card_commission_id: 3,
+        card_commission_id: 5,
         currency_id: "",
       })
 
@@ -253,13 +253,13 @@ export function CreateCardDialog({ onCardCreated, userCredits }: { onCardCreated
               <Input
                 id="commission"
                 type="number"
-                placeholder="3"
+                placeholder="5"
                 value={formData.card_commission_id}
-                onChange={(e) => setFormData({ ...formData, card_commission_id: Number.parseInt(e.target.value) || 3 })}
+                onChange={(e) => setFormData({ ...formData, card_commission_id: Number.parseInt(e.target.value) || 5 })}
                 required
                 className="bg-background border-border"
               />
-              <p className="text-xs text-muted-foreground">Using commission ID: 3 (as provided by ZeroID support)</p>
+              <p className="text-xs text-muted-foreground">Using commission ID: 5 (as provided by ZeroID support)</p>
             </div>
           </div>
           <DialogFooter>
