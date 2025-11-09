@@ -145,48 +145,70 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <CreditCard className="w-5 h-5 text-primary-foreground" />
+        <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
+                <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
+              </div>
+              <span className="text-base sm:text-xl font-bold">dbank</span>
+            </Link>
+            <div className="flex items-center gap-1 sm:gap-3 flex-wrap justify-end">
+              <div className="text-xs sm:text-sm text-muted-foreground hidden lg:block">{userEmail}</div>
+              <Button variant="ghost" size="icon" asChild className="hidden md:flex h-8 w-8 sm:h-10 sm:w-10">
+                <a href="https://t.me/dbank_insiders" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                  <TelegramIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild className="hidden md:flex h-8 w-8 sm:h-10 sm:w-10">
+                <a
+                  href="https://x.com/official_dbank"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X (Twitter)"
+                >
+                  <XIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                </a>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
+              >
+                <Link href="/preload-cards">
+                  <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Preload Cards</span>
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
+              >
+                <Link href="/buy-credits">
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Buy Credits</span>
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
+              >
+                <LogOut className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Logout</span>
+              </Button>
+              <CreateCardDialog
+                onCardCreated={() => {
+                  loadCards()
+                  loadUserProfile()
+                }}
+                userCredits={credits}
+              />
             </div>
-            <span className="text-xl font-bold">dbank</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="text-sm text-muted-foreground hidden sm:block">{userEmail}</div>
-            <Button variant="ghost" size="icon" asChild className="hidden sm:flex">
-              <a href="https://t.me/dbank_insiders" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-                <TelegramIcon className="w-5 h-5" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" asChild className="hidden sm:flex">
-              <a href="https://x.com/official_dbank" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-                <XIcon className="w-5 h-5" />
-              </a>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/preload-cards">
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Preload Cards
-              </Link>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/buy-credits">
-                <Plus className="w-4 h-4 mr-2" />
-                Buy Credits
-              </Link>
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
-            <CreateCardDialog
-              onCardCreated={() => {
-                loadCards()
-                loadUserProfile()
-              }}
-              userCredits={credits}
-            />
           </div>
         </div>
       </header>
@@ -212,18 +234,18 @@ export default function DashboardPage() {
           </Alert>
         )}
 
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-8">
           <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Your Credits</CardTitle>
-              <Coins className="w-4 h-4 text-primary" />
+            <CardHeader className="flex flex-row items-center justify-between pb-2 p-3 md:p-6">
+              <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Your Credits</CardTitle>
+              <Coins className="w-3 h-3 md:w-4 md:h-4 text-primary" />
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
               {loadingUser ? (
-                <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin text-primary" />
               ) : (
                 <>
-                  <div className="text-3xl font-bold text-primary">{databaseSetup ? credits : "∞"}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-primary">{databaseSetup ? credits : "∞"}</div>
                   <p className="text-xs text-muted-foreground mt-1">
                     {databaseSetup
                       ? credits === 1
@@ -237,38 +259,38 @@ export default function DashboardPage() {
           </Card>
 
           <Card className="bg-card border-border">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Active Cards</CardTitle>
-              <CreditCard className="w-4 h-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-2 p-3 md:p-6">
+              <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Active Cards</CardTitle>
+              <CreditCard className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{cards.filter((c) => c.status === "active").length}</div>
+            <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+              <div className="text-2xl md:text-3xl font-bold">{cards.filter((c) => c.status === "active").length}</div>
               <p className="text-xs text-muted-foreground mt-1">Ready to use</p>
             </CardContent>
           </Card>
 
           <Card className="bg-card border-border">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Cards</CardTitle>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-2 p-3 md:p-6">
+              <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">Total Cards</CardTitle>
+              <ArrowUpRight className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{cards.length}</div>
+            <CardContent className="p-3 pt-0 md:p-6 md:pt-0">
+              <div className="text-2xl md:text-3xl font-bold">{cards.length}</div>
               <p className="text-xs text-muted-foreground mt-1">All time</p>
             </CardContent>
           </Card>
         </div>
 
         {!loadingUser && credits === 0 && databaseSetup && (
-          <Alert className="mb-6 border-yellow-500/50 bg-yellow-500/10">
+          <Alert className="mb-4 md:mb-6 border-yellow-500/50 bg-yellow-500/10">
             <AlertCircle className="h-4 w-4 text-yellow-500" />
-            <AlertTitle className="text-yellow-500">No Credits Available</AlertTitle>
-            <AlertDescription className="text-sm text-muted-foreground">
+            <AlertTitle className="text-yellow-500 text-sm md:text-base">No Credits Available</AlertTitle>
+            <AlertDescription className="text-xs md:text-sm text-muted-foreground">
               You need credits to create cards. Each card costs 1 credit ($30 USDT/USDC).
-              <div className="mt-3">
+              <div className="mt-2 md:mt-3">
                 <Button size="sm" asChild>
                   <Link href="/buy-credits">
-                    <Plus className="w-4 h-4 mr-2" />
+                    <Plus className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                     Buy Credits Now
                   </Link>
                 </Button>
