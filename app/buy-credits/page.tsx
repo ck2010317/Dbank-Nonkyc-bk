@@ -17,7 +17,7 @@ export default function BuyCreditsPage() {
   const [transactionHash, setTransactionHash] = useState("")
   const [amount, setAmount] = useState("")
   const [currency, setCurrency] = useState("USDT")
-  const [network, setNetwork] = useState("BASE")
+  const [network, setNetwork] = useState("ETHEREUM")
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
@@ -113,7 +113,8 @@ export default function BuyCreditsPage() {
               <div className="space-y-2">
                 <h3 className="font-semibold text-sm">Step 1: Send Payment</h3>
                 <p className="text-sm text-muted-foreground">
-                  Send USDT or USDC to the wallet address below. Each credit costs $30.
+                  Send USDT or USDC on Ethereum (ETH) or Base network to the wallet address below. Each credit costs
+                  $30.
                 </p>
                 <div className="bg-background rounded-lg p-3 border border-border">
                   <Label className="text-xs text-muted-foreground">Wallet Address</Label>
@@ -182,9 +183,9 @@ export default function BuyCreditsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="ETHEREUM">Ethereum (ETH)</SelectItem>
                         <SelectItem value="BASE">Base Chain</SelectItem>
                         <SelectItem value="BSC">Binance Smart Chain (BSC)</SelectItem>
-                        <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
                         <SelectItem value="POLYGON">Polygon (MATIC)</SelectItem>
                         <SelectItem value="TRON">Tron (TRX)</SelectItem>
                       </SelectContent>
