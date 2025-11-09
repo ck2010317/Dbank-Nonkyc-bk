@@ -32,7 +32,7 @@ export function CardVisual({
   }
 
   return (
-    <div className="relative w-full max-w-[400px] aspect-[1.6/1] rounded-2xl bg-gradient-to-br from-primary via-primary/90 to-primary/70 p-4 md:p-6 shadow-2xl overflow-hidden">
+    <div className="relative w-full max-w-[400px] aspect-[1.7/1] rounded-2xl bg-gradient-to-br from-primary via-primary/90 to-primary/70 p-4 md:p-6 shadow-2xl overflow-hidden">
       {/* Card background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -42,15 +42,15 @@ export function CardVisual({
       <div className="absolute top-8 md:top-16 left-4 md:left-6 w-10 md:w-12 h-8 md:h-10 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md opacity-80 shadow-lg" />
 
       {/* Card content */}
-      <div className="relative h-full flex flex-col justify-between text-white z-10">
+      <div className="relative h-full flex flex-col text-white z-10">
         {/* Top section */}
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between mb-6 md:mb-8">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
               <CreditCard className="w-4 h-4 md:w-6 md:h-6 text-white" />
             </div>
             <div>
-              <p className="text-[10px] md:text-xs text-white/80">Balance</p>
+              <p className="text-[11px] md:text-xs text-white/80">Balance</p>
               <p className="text-base md:text-lg font-bold text-white">${balance.toFixed(2)}</p>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function CardVisual({
         </div>
 
         {/* Middle section - Card number */}
-        <div className="space-y-1">
+        <div className="space-y-1 mb-6 md:mb-8">
           <div className="flex items-center gap-2">
             <p className="text-base md:text-xl font-mono tracking-wider text-white">{cardNumber}</p>
             {cardNumber !== "•••• •••• •••• ••••" && (
@@ -78,22 +78,24 @@ export function CardVisual({
           </div>
         </div>
 
-        {/* Bottom section */}
-        <div className="flex items-end justify-between gap-3">
+        {/* Bottom section - Moved higher with larger text */}
+        <div className="flex items-start justify-between gap-3 mt-auto pb-2">
           <div className="flex-shrink min-w-0 max-w-[40%]">
-            <p className="text-[10px] md:text-xs text-white/90 mb-1 leading-tight">Card Holder</p>
-            <p className="text-xs md:text-sm font-medium uppercase text-white truncate leading-tight">{holderName}</p>
+            <p className="text-[11px] md:text-xs text-white/90 mb-1.5 leading-tight">Card Holder</p>
+            <p className="text-sm md:text-base font-medium uppercase text-white truncate leading-tight">{holderName}</p>
           </div>
           <div className="flex gap-4 md:gap-6 flex-shrink-0">
             <div className="text-right">
-              <p className="text-[10px] md:text-xs text-white/90 mb-1 leading-tight whitespace-nowrap">Expires</p>
-              <p className="text-xs md:text-sm font-mono text-white font-bold leading-tight whitespace-nowrap">
+              <p className="text-[11px] md:text-xs text-white/90 mb-1.5 leading-tight whitespace-nowrap">Expires</p>
+              <p className="text-sm md:text-base font-mono text-white font-bold leading-tight whitespace-nowrap">
                 {expiryDate}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] md:text-xs text-white/90 mb-1 leading-tight whitespace-nowrap">CVV</p>
-              <p className="text-xs md:text-sm font-mono text-white font-bold leading-tight whitespace-nowrap">{cvv}</p>
+              <p className="text-[11px] md:text-xs text-white/90 mb-1.5 leading-tight whitespace-nowrap">CVV</p>
+              <p className="text-sm md:text-base font-mono text-white font-bold leading-tight whitespace-nowrap">
+                {cvv}
+              </p>
             </div>
           </div>
         </div>
