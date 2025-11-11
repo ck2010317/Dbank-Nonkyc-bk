@@ -1,8 +1,9 @@
 "use client"
 
-import { CreditCard, Copy, Check } from "lucide-react"
+import { Copy, Check } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface CardVisualProps {
   cardNumber?: string
@@ -39,18 +40,16 @@ export function CardVisual({
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
       </div>
 
-      <div className="absolute top-8 md:top-16 left-4 md:left-6 w-10 md:w-12 h-8 md:h-10 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md opacity-80 shadow-lg" />
-
       {/* Card content */}
       <div className="relative h-full flex flex-col text-white z-10">
         {/* Top section */}
         <div className="flex items-start justify-between mb-4 md:mb-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
-              <CreditCard className="w-4 h-4 md:w-6 md:h-6 text-white" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg flex items-center justify-center p-2">
+              <Image src="/dbank-d-logo.svg" alt="dbank" width={48} height={48} className="w-full h-full" />
             </div>
             <div>
-              <p className="text-[11px] md:text-xs text-white/80">Balance</p>
+              <p className="text-[11px] md:text-xs text-white/80 uppercase tracking-wide">Balance</p>
               <p className="text-base md:text-lg font-bold text-white">${balance.toFixed(2)}</p>
             </div>
           </div>

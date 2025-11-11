@@ -159,10 +159,7 @@ export default function DashboardPage() {
         <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
           <div className="flex items-center justify-between gap-2">
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
-                <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-              </div>
-              <span className="text-base sm:text-xl font-bold">dbank</span>
+              <img src="/dbank-logo.svg" alt="dbank" className="h-6 sm:h-8 w-auto" />
             </Link>
             <div className="flex items-center gap-1 sm:gap-3 flex-wrap justify-end">
               <div className="text-xs sm:text-sm text-muted-foreground hidden lg:block">{userEmail}</div>
