@@ -191,22 +191,20 @@ export default function CardDetailPage() {
   )
 
   const totalSpent = Array.isArray(transactions)
-    ? transactions.filter((t) => t.type === "debit" && t.status === "COMPLETED").reduce((sum, t) => sum + t.amount, 0)
-    : 0
-  const totalReceived = Array.isArray(transactions)
-    ? transactions.filter((t) => t.type === "credit" && t.status === "COMPLETED").reduce((sum, t) => sum + t.amount, 0)
+    ? transactions
+        .filter((t) => t.type === "debit" && (t.status === "COMPLETED" || t.status === "PENDING"))
+        .reduce((sum, t) => sum + t.amount, 0)
     : 0
 
   console.log(
     "[v0] Debit transactions:",
-    transactions.filter((t) => t.type === "debit" && t.status === "COMPLETED").length,
+    transactions.filter((t) => t.type === "debit" && (t.status === "COMPLETED" || t.status === "PENDING")).length,
   )
   console.log(
     "[v0] Credit transactions:",
-    transactions.filter((t) => t.type === "credit" && t.status === "COMPLETED").length,
+    transactions.filter((t) => t.type === "credit" && (t.status === "COMPLETED" || t.status === "PENDING")).length,
   )
   console.log("[v0] Total Spent:", totalSpent)
-  console.log("[v0] Total Received:", totalReceived)
 
   return (
     <div className="min-h-screen bg-background">
@@ -365,7 +363,7 @@ export default function CardDetailPage() {
           {/* Right Column - Stats and Transactions */}
           <div className="lg:col-span-2 space-y-6">
             {/* Stats Cards */}
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <Card className="bg-card border-border">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">Current Balance</CardTitle>
@@ -382,16 +380,6 @@ export default function CardDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-destructive">${totalSpent.toFixed(2)}</div>
-                  <p className="text-xs text-muted-foreground mt-1">All time</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Total Received</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-green-500">${totalReceived.toFixed(2)}</div>
                   <p className="text-xs text-muted-foreground mt-1">All time</p>
                 </CardContent>
               </Card>
