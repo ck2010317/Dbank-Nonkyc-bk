@@ -6,7 +6,18 @@ import { Button } from "@/components/ui/button"
 import { CreateCardDialog } from "@/components/create-card-dialog"
 import { CardVisual } from "@/components/card-visual"
 import { zeroidApi, type Card as CardType } from "@/lib/zeroid-api"
-import { CreditCard, ArrowUpRight, Loader2, AlertCircle, Info, Coins, LogOut, Plus, ShoppingCart } from "lucide-react"
+import {
+  CreditCard,
+  ArrowUpRight,
+  Loader2,
+  AlertCircle,
+  Info,
+  Coins,
+  LogOut,
+  Plus,
+  ShoppingCart,
+  BarChart3,
+} from "lucide-react"
 import Link from "next/link"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { createClient } from "@/lib/supabase/client"
@@ -169,6 +180,17 @@ export default function DashboardPage() {
                 >
                   <XIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
+              >
+                <Link href="/dashboard/analytics">
+                  <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Analytics</span>
+                </Link>
               </Button>
               <Button
                 variant="outline"
