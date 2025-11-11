@@ -1,7 +1,18 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CreditCard, Plus, History, Wallet, Shield, Zap, ArrowRight } from "lucide-react"
+import {
+  CreditCard,
+  Plus,
+  History,
+  Wallet,
+  Shield,
+  Zap,
+  ArrowRight,
+  ShoppingBag,
+  Smartphone,
+  Globe,
+} from "lucide-react"
 // Importing 3D card showcase component
 import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
 
@@ -137,6 +148,185 @@ export default function HomePage() {
 
       {/* 3D Card Showcase Section */}
       <ThreeDCardShowcase />
+
+      {/* Use Cases Section with Images */}
+      <section className="container mx-auto px-4 py-20 relative">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Use Your Cards Anywhere</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Shop online, pay in stores, or subscribe to services - your dbank card works everywhere
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Online Shopping */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-[4/3] relative overflow-hidden">
+              <img
+                src="/person-shopping-online-on-laptop-with-credit-card-.jpg"
+                alt="Online Shopping"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-10 h-10 bg-primary/90 backdrop-blur rounded-lg flex items-center justify-center">
+                    <ShoppingBag className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-xl mb-1">Online Shopping</h3>
+                <p className="text-white/80 text-sm">Shop from thousands of online stores worldwide</p>
+              </div>
+            </div>
+          </div>
+
+          {/* In-Store Payments */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-[4/3] relative overflow-hidden">
+              <img
+                src="/person-paying-with-phone-contactless-payment-in-mo.jpg"
+                alt="In-Store Payments"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-10 h-10 bg-blue-600/90 backdrop-blur rounded-lg flex items-center justify-center">
+                    <Smartphone className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-xl mb-1">In-Store Purchases</h3>
+                <p className="text-white/80 text-sm">Tap to pay at millions of retail locations</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Subscriptions */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-[4/3] relative overflow-hidden">
+              <img
+                src="/person-using-streaming-services-on-tablet--multipl.jpg"
+                alt="Subscriptions"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-10 h-10 bg-purple-600/90 backdrop-blur rounded-lg flex items-center justify-center">
+                    <Globe className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-xl mb-1">Subscriptions</h3>
+                <p className="text-white/80 text-sm">Manage all your recurring payments effortlessly</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="container mx-auto px-4 py-20 relative">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose dbank?</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Experience the future of digital banking with instant cards and complete privacy
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Privacy First */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-video relative overflow-hidden">
+              <img
+                src="/person-using-laptop-with-secure-lock-icon-privacy-.jpg"
+                alt="Privacy and Security"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-green-600/90 backdrop-blur rounded-xl flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-2xl mb-2">Privacy First Banking</h3>
+                <p className="text-white/90 text-base">
+                  No KYC required. Your privacy is our priority with instant non-KYC virtual cards
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Instant Setup */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-video relative overflow-hidden">
+              <img
+                src="/person-holding-smartphone-with-credit-card-creatio.jpg"
+                alt="Instant Card Creation"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-primary/90 backdrop-blur rounded-xl flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-2xl mb-2">Cards in Seconds</h3>
+                <p className="text-white/90 text-base">
+                  Create your virtual card instantly - no waiting, no paperwork, just instant access
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Global Acceptance */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-video relative overflow-hidden">
+              <img
+                src="/world-map-with-payment-locations-global-acceptance.jpg"
+                alt="Global Acceptance"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-blue-600/90 backdrop-blur rounded-xl flex items-center justify-center">
+                    <Globe className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-2xl mb-2">Accepted Worldwide</h3>
+                <p className="text-white/90 text-base">
+                  Use your dbank card anywhere Visa and Mastercard are accepted globally
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Easy Top-ups */}
+          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+            <div className="aspect-video relative overflow-hidden">
+              <img
+                src="/crypto-wallet-bitcoin-ethereum-digital-currency-pa.jpg"
+                alt="Flexible Payment Options"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-purple-600/90 backdrop-blur rounded-xl flex items-center justify-center">
+                    <Wallet className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-white font-bold text-2xl mb-2">Flexible Top-ups</h3>
+                <p className="text-white/90 text-base">
+                  Add funds with USDT, USDC, and other cryptocurrencies on multiple networks
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Features Grid */}
       <section id="features" className="container mx-auto px-4 py-20 relative">
