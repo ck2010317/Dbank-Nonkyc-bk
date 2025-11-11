@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { zeroidApi, type Card as CardType, type Transaction } from "@/lib/zeroid-api"
 import { CreditCard, Loader2, AlertCircle, TrendingUp, TrendingDown, Calendar } from "lucide-react"
 import Link from "next/link"
-import { Alert } from "@/components/ui/alert"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Bar, BarChart, XAxis, YAxis, CartesianGrid, Pie, PieChart, Cell } from "recharts"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
@@ -178,7 +179,7 @@ export default function AnalyticsPage() {
                 <Link href="/dashboard">Back to Dashboard</Link>
               </Button>
               <Button variant="outline" size="sm" onClick={handleLogout}>
-                <Calendar className="w-4 h-4 mr-2" />
+                <TrendingDown className="w-4 h-4 mr-2" />
                 Logout
               </Button>
             </div>
@@ -200,14 +201,14 @@ export default function AnalyticsPage() {
         ) : error ? (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <div className="text-sm text-muted-foreground">{error}</div>
+            <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : transactions.length === 0 ? (
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <div className="text-sm text-muted-foreground">
+            <AlertDescription>
               No transaction data available yet. Start using your cards to see analytics.
-            </div>
+            </AlertDescription>
           </Alert>
         ) : (
           <>
@@ -262,15 +263,22 @@ export default function AnalyticsPage() {
                   <CardDescription>Your spending and credits over the last 6 months</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px]">
+                  <ChartContainer
+                    config={{
+                      spent: { label: "Spent", color: "#ef4444" },
+                      received: { label: "Received", color: "#10b981" },
+                    }}
+                    className="h-[300px]"
+                  >
                     <BarChart data={monthlyChartData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
-                      <Bar dataKey="spent" fill="#ef4444" radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="received" fill="#10b981" radius={[8, 8, 0, 0]} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="spent" fill="var(--color-spent)" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="received" fill="var(--color-received)" radius={[8, 8, 0, 0]} />
                     </BarChart>
-                  </div>
+                  </ChartContainer>
                 </CardContent>
               </Card>
 
@@ -282,7 +290,12 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   {categoryChartData.length > 0 ? (
-                    <div className="h-[300px]">
+                    <ChartContainer
+                      config={{
+                        value: { label: "Amount", color: "#3b82f6" },
+                      }}
+                      className="h-[300px]"
+                    >
                       <PieChart>
                         <Pie
                           data={categoryChartData}
@@ -297,8 +310,9 @@ export default function AnalyticsPage() {
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
+                        <ChartTooltip content={<ChartTooltipContent />} />
                       </PieChart>
-                    </div>
+                    </ChartContainer>
                   ) : (
                     <div className="flex items-center justify-center h-[300px] text-muted-foreground">
                       No category data available
