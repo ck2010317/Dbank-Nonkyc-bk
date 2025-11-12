@@ -31,7 +31,7 @@ export async function GET() {
     }
 
     const userCardIds = new Set(userCards?.map((c) => c.zeroid_card_id) || [])
-    console.log("[v0] User has", userCardIds.size, "cards")
+    console.log("[v0] User has", userCardIds.size, "cards in database:", Array.from(userCardIds))
 
     // Fetch all cards from ZeroID
     console.log("[v0] Fetching cards from ZeroID API...")
@@ -75,6 +75,10 @@ export async function GET() {
 
     const cards = Array.isArray(data) ? data : data.cards || []
     console.log("[v0] ZeroID returned", cards.length, "total cards")
+    console.log(
+      "[v0] ZeroID card IDs:",
+      cards.map((c: any) => c.id),
+    )
 
     const supabaseUrl =
       process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || process.env.SUPABASE_SUPABASE_URL
@@ -119,9 +123,60 @@ export async function GET() {
       }
     }
 
-    const userOwnedCards = cards.filter((card: any) => userCardIds.has(card.id))
+    const cardsInResponse = cards.filter((card: any) => userCardIds.has(card.id))
+    const missingCardIds = Array.from(userCardIds).filter((cardId) => !cards.some((card: any) => card.id === cardId))
 
-    const cardsWithBalance = userOwnedCards.map((card: any) => ({
+    console.log("[v0] Cards found in ZeroID response:", cardsInResponse.length)
+    console.log("[v0] Missing cards (need individual fetch):", missingCardIds.length, missingCardIds)
+
+    const allUserCards = [...cardsInResponse]
+    const inaccessibleCards: string[] = []
+
+    if (missingCardIds.length > 0) {
+      console.log("[v0] Fetching missing cards individually...")
+      for (const cardId of missingCardIds) {
+        try {
+          const cardResponse = await fetch(`${API_BASE_URL}/cards/${cardId}`, {
+            headers: {
+              "X-API-Key": API_KEY,
+              "Content-Type": "application/json",
+            },
+          })
+
+          if (cardResponse.ok) {
+            const cardData = await cardResponse.json()
+            console.log("[v0] Successfully fetched individual card:", cardId)
+            // Individual card API returns {success: true, card: {...}} format
+            const actualCard = cardData.card || cardData
+            allUserCards.push(actualCard)
+          } else if (cardResponse.status === 403) {
+            console.log("[v0] Card", cardId, "is inaccessible (403). Marking for cleanup.")
+            inaccessibleCards.push(cardId)
+          } else {
+            console.error("[v0] Failed to fetch individual card:", cardId, cardResponse.status)
+          }
+        } catch (error) {
+          console.error("[v0] Error fetching individual card:", cardId, error)
+        }
+      }
+    }
+
+    if (inaccessibleCards.length > 0) {
+      console.log("[v0] Cleaning up", inaccessibleCards.length, "inaccessible cards from database")
+      const { error: deleteError } = await supabaseAdmin
+        .from("cards")
+        .delete()
+        .eq("user_id", user.id)
+        .in("zeroid_card_id", inaccessibleCards)
+
+      if (deleteError) {
+        console.error("[v0] Failed to clean up inaccessible cards:", deleteError)
+      } else {
+        console.log("[v0] Successfully removed inaccessible cards from database")
+      }
+    }
+
+    const cardsWithBalance = allUserCards.map((card: any) => ({
       ...card,
       balance: (card.spend_cap || 0) - (card.spent_amount || 0),
     }))
