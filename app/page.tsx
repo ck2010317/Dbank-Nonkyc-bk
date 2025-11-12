@@ -19,81 +19,116 @@ import { LiveStats } from "@/components/live-stats"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/8 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-blue-400/8 rounded-full blur-3xl animate-pulse" />
       </div>
 
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white/95 backdrop-blur-xl sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/dbank-logo.svg" alt="dbank" className="h-8 w-auto" />
-          </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-              Features
+      {/* Header - Enhanced navbar with glassmorphism, better spacing, and hover effects */}
+      <header className="border-b border-blue-100/50 bg-white/70 backdrop-blur-2xl sticky top-0 z-50 shadow-lg shadow-blue-100/20">
+        <div className="container mx-auto px-6 py-5">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+                <img
+                  src="/dbank-logo.svg"
+                  alt="dbank"
+                  className="h-10 w-auto relative z-10 group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
             </Link>
-            <Link href="#how-it-works" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-              How it Works
-            </Link>
-            <Link href="/preload-cards" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-              Preload Cards
-            </Link>
-            <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-              Dashboard
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://t.me/dbank_insiders"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              aria-label="Telegram"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-1">
+              <Link
+                href="#features"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
               >
-                <path d="m22 2-7 20-4-9-9-4Z" />
-                <path d="M22 2 11 13" />
-              </svg>
-            </a>
-            <a
-              href="https://x.com/official_dbank"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              aria-label="X (Twitter)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                Features
+              </Link>
+              <Link
+                href="#how-it-works"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
               >
-                <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-              </svg>
-            </a>
-            <Link href="/dashboard">
-              <Button className="shadow-lg">Get Started</Button>
-            </Link>
+                How it Works
+              </Link>
+              <Link
+                href="/preload-cards"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+              >
+                Preload Cards
+              </Link>
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+              >
+                Dashboard
+              </Link>
+            </nav>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-4">
+              {/* Social Links */}
+              <div className="hidden sm:flex items-center gap-2">
+                <a
+                  href="https://t.me/dbank_insiders"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
+                  aria-label="Telegram"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m22 2-7 20-4-9-9-4Z" />
+                    <path d="M22 2 11 13" />
+                  </svg>
+                </a>
+                <a
+                  href="https://x.com/official_dbank"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
+                  aria-label="X (Twitter)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+                  </svg>
+                </a>
+              </div>
+
+              {/* CTA Button */}
+              <Link href="/dashboard">
+                <Button className="shadow-lg hover:shadow-xl hover:shadow-blue-200/50 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold group">
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -147,7 +182,7 @@ export default function HomePage() {
       <LiveStats />
 
       {/* Pricing & Fees Section */}
-      <section className="container mx-auto px-4 py-24 relative bg-gray-50">
+      <section className="container mx-auto px-4 py-24 relative bg-gradient-to-b from-white via-blue-50/30 to-white">
         <div className="text-center mb-16 relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold mb-6">
             <Shield className="w-4 h-4" />
@@ -279,7 +314,7 @@ export default function HomePage() {
       </section>
 
       {/* Use Cases Section with Images */}
-      <section className="container mx-auto px-4 py-20 relative bg-white">
+      <section className="container mx-auto px-4 py-20 relative bg-white/80 backdrop-blur-sm">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Use Your Cards Anywhere</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -354,7 +389,7 @@ export default function HomePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="container mx-auto px-4 py-20 relative bg-gray-50">
+      <section className="container mx-auto px-4 py-20 relative bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-white">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Why Choose dbank?</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -458,7 +493,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="container mx-auto px-4 py-20 relative bg-white">
+      <section id="features" className="container mx-auto px-4 py-20 relative bg-white/80 backdrop-blur-sm">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Everything You Need</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -554,7 +589,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 relative bg-gray-50">
+      <section className="container mx-auto px-4 py-20 relative bg-gradient-to-b from-white via-blue-50/40 to-indigo-50/30">
         <Card className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-blue-200 overflow-hidden relative">
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-0 left-0 w-40 h-40 bg-blue-400 rounded-full blur-3xl" />
@@ -577,7 +612,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t border-gray-200 bg-white/95 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <Link href="/" className="flex items-center gap-2">
