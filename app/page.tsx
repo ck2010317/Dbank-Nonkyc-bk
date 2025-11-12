@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 // Importing 3D card showcase component
 import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
+import { LiveStats } from "@/components/live-stats"
 
 export default function HomePage() {
   return (
@@ -143,6 +144,106 @@ export default function HomePage() {
 
       {/* 3D Card Showcase Section */}
       <ThreeDCardShowcase />
+
+      {/* LiveStats Component */}
+      <LiveStats />
+
+      {/* Pricing & Fees Section */}
+      <section className="container mx-auto px-4 py-20 relative">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Transparent Pricing</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            No hidden fees. Know exactly what you pay for every transaction.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8">
+          {/* Card Top-up Fee */}
+          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl mb-2">Card Top-up Fee</CardTitle>
+                  <CardDescription>One-time fee when adding funds to your card</CardDescription>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
+                  <CreditCard className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-primary mb-1">2.5% + 1 USDT</div>
+              <p className="text-sm text-muted-foreground">Per top-up transaction</p>
+            </CardContent>
+          </Card>
+
+          {/* Domestic Transaction */}
+          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl mb-2">Domestic Transaction</CardTitle>
+                  <CardDescription>Fee for purchases within your country</CardDescription>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center">
+                  <ShoppingBag className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-600 mb-1">$0.35</div>
+              <p className="text-sm text-muted-foreground">Per transaction</p>
+            </CardContent>
+          </Card>
+
+          {/* International Transaction */}
+          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl mb-2">International Transaction</CardTitle>
+                  <CardDescription>Fee for cross-border purchases</CardDescription>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <Globe className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-blue-600 mb-1">2% + $0.30</div>
+              <p className="text-sm text-muted-foreground">Per transaction</p>
+            </CardContent>
+          </Card>
+
+          {/* Transaction Limits */}
+          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl mb-2">Transaction Limits</CardTitle>
+                  <CardDescription>Maximum spending limits for your security</CardDescription>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-lg flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div>
+                  <div className="text-2xl font-bold text-orange-600 mb-1">$200,000</div>
+                  <p className="text-sm text-muted-foreground">Per transaction</p>
+                </div>
+                <div className="h-px bg-border" />
+                <div>
+                  <div className="text-2xl font-bold text-orange-600 mb-1">$500,000</div>
+                  <p className="text-sm text-muted-foreground">Daily limit</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
       {/* Use Cases Section with Images */}
       <section className="container mx-auto px-4 py-20 relative">
