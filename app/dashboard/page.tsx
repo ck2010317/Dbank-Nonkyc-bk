@@ -125,9 +125,12 @@ export default function DashboardPage() {
     try {
       setLoading(true)
       setError(null)
+      const timestamp = Date.now()
       const data = await zeroidApi.getCards()
       const cardsArray = Array.isArray(data) ? data : []
       setCards(cardsArray)
+      console.log("[v0] Loaded", cardsArray.length, "cards at", new Date().toISOString())
+      // </CHANGE>
     } catch (err) {
       console.error("[v0] Error loading cards:", err)
       setError(err instanceof Error ? err.message : "Failed to load cards")
@@ -350,6 +353,19 @@ export default function DashboardPage() {
               <h2 className="text-2xl font-bold">Your Cards</h2>
               <p className="text-muted-foreground">Manage and view all your prepaid cards</p>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                loadCards()
+                loadUserProfile()
+              }}
+              disabled={loading}
+            >
+              {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+              Refresh
+            </Button>
+            {/* </CHANGE> */}
           </div>
 
           {loading ? (
