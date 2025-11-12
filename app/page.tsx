@@ -19,36 +19,30 @@ import { LiveStats } from "@/components/live-stats"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-500" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
       </div>
 
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-xl sticky top-0 z-50">
+      <header className="border-b border-gray-200 bg-white/95 backdrop-blur-xl sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <img src="/dbank-logo.svg" alt="dbank" className="h-8 w-auto" />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="#features" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
               Features
             </Link>
-            <Link
-              href="#how-it-works"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <Link href="#how-it-works" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
               How it Works
             </Link>
-            <Link
-              href="/preload-cards"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <Link href="/preload-cards" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
               Preload Cards
             </Link>
-            <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
               Dashboard
             </Link>
           </nav>
@@ -57,7 +51,7 @@ export default function HomePage() {
               href="https://t.me/dbank_insiders"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
               aria-label="Telegram"
             >
               <svg
@@ -79,7 +73,7 @@ export default function HomePage() {
               href="https://x.com/official_dbank"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
               aria-label="X (Twitter)"
             >
               <svg
@@ -107,21 +101,21 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32 relative">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium mb-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-medium mb-3">
             <Shield className="w-4 h-4" />
             <span>Non-KYC Cards • No Identity Verification Required</span>
           </div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium mb-6">
             <Zap className="w-4 h-4" />
             <span>Instant Card Issuance</span>
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance text-gray-900">
             Digital Banking Made{" "}
-            <span className="bg-gradient-to-r from-primary via-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Simple
             </span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 mb-8 text-pretty max-w-2xl mx-auto leading-relaxed">
             Create, manage, and control prepaid cards instantly. Perfect for businesses and individuals who need
             flexible payment solutions.
           </p>
@@ -134,7 +128,11 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="#features">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto bg-background/50 backdrop-blur">
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto border-gray-300 hover:bg-gray-50 bg-transparent"
+              >
                 Learn More
               </Button>
             </Link>
@@ -149,114 +147,149 @@ export default function HomePage() {
       <LiveStats />
 
       {/* Pricing & Fees Section */}
-      <section className="container mx-auto px-4 py-20 relative">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Transparent Pricing</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            No hidden fees. Know exactly what you pay for every transaction.
+      <section className="container mx-auto px-4 py-24 relative bg-gray-50">
+        <div className="text-center mb-16 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold mb-6">
+            <Shield className="w-4 h-4" />
+            <span>Transparent Pricing</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance text-gray-900">Simple, Clear Pricing</h2>
+          <p className="text-gray-600 text-xl max-w-2xl mx-auto text-pretty leading-relaxed">
+            No hidden fees. No surprises. Know exactly what you pay for every transaction.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8">
-          {/* Card Top-up Fee */}
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl mb-2">Card Top-up Fee</CardTitle>
-                  <CardDescription>One-time fee when adding funds to your card</CardDescription>
+        <div className="max-w-7xl mx-auto">
+          {/* Main Pricing Grid */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-8">
+            {/* Card Top-up Fee - Featured */}
+            <Card className="lg:col-span-3 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-blue-200 overflow-hidden relative group hover:shadow-2xl hover:shadow-blue-200 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-100/20 via-transparent to-purple-100/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardContent className="p-8 md:p-10 relative z-10">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="flex items-start gap-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-110 transition-transform duration-300">
+                      <CreditCard className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold mb-3 text-balance text-gray-900">
+                        Card Top-up Fee
+                      </h3>
+                      <p className="text-gray-600 text-base md:text-lg mb-2 text-pretty max-w-xl">
+                        One-time fee when adding funds to your card
+                      </p>
+                      <div className="flex items-baseline gap-2 mb-1">
+                        <span className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                          2.5%
+                        </span>
+                        <span className="text-3xl md:text-4xl font-bold text-gray-700">+ 1 USDT</span>
+                      </div>
+                      <p className="text-sm text-gray-600 font-medium">Per top-up transaction</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
-                  <CreditCard className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary mb-1">2.5% + 1 USDT</div>
-              <p className="text-sm text-muted-foreground">Per top-up transaction</p>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* Domestic Transaction */}
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl mb-2">Domestic Transaction</CardTitle>
-                  <CardDescription>Fee for purchases within your country</CardDescription>
+            {/* Domestic Transaction */}
+            <Card className="bg-white border-gray-200 hover:border-green-400 transition-all duration-300 group hover:shadow-xl hover:shadow-green-100 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-transparent to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader className="pb-4 relative z-10">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 bg-gradient-to-br from-green-600 via-emerald-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-600/30 group-hover:scale-110 transition-transform duration-300">
+                    <ShoppingBag className="w-7 h-7 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center">
-                  <ShoppingBag className="w-6 h-6 text-white" />
+                <CardTitle className="text-xl md:text-2xl font-bold mb-2 text-gray-900">Domestic Transaction</CardTitle>
+                <CardDescription className="text-base text-gray-600">
+                  Fee for purchases within your country
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-5xl md:text-6xl font-bold text-green-600">$0.35</span>
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-green-600 mb-1">$0.35</div>
-              <p className="text-sm text-muted-foreground">Per transaction</p>
-            </CardContent>
-          </Card>
+                <p className="text-sm text-gray-600 font-medium">Per transaction</p>
+              </CardContent>
+            </Card>
 
-          {/* International Transaction */}
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl mb-2">International Transaction</CardTitle>
-                  <CardDescription>Fee for cross-border purchases</CardDescription>
+            {/* International Transaction */}
+            <Card className="bg-white border-gray-200 hover:border-blue-400 transition-all duration-300 group hover:shadow-xl hover:shadow-blue-100 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader className="pb-4 relative z-10">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-7 h-7 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Globe className="w-6 h-6 text-white" />
+                <CardTitle className="text-xl md:text-2xl font-bold mb-2 text-gray-900">
+                  International Transaction
+                </CardTitle>
+                <CardDescription className="text-base text-gray-600">Fee for cross-border purchases</CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-4xl md:text-5xl font-bold text-blue-600">2%</span>
+                  <span className="text-2xl md:text-3xl font-bold text-gray-700">+ $0.30</span>
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-blue-600 mb-1">2% + $0.30</div>
-              <p className="text-sm text-muted-foreground">Per transaction</p>
-            </CardContent>
-          </Card>
+                <p className="text-sm text-gray-600 font-medium">Per transaction</p>
+              </CardContent>
+            </Card>
 
-          {/* Transaction Limits */}
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 transition-all">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl mb-2">Transaction Limits</CardTitle>
-                  <CardDescription>Maximum spending limits for your security</CardDescription>
+            {/* Transaction Limits */}
+            <Card className="bg-white border-gray-200 hover:border-orange-400 transition-all duration-300 group hover:shadow-xl hover:shadow-orange-100 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-transparent to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader className="pb-4 relative z-10">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-14 h-14 bg-gradient-to-br from-orange-600 via-red-600 to-orange-700 rounded-xl flex items-center justify-center shadow-lg shadow-orange-600/30 group-hover:scale-110 transition-transform duration-300">
+                    <Shield className="w-7 h-7 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-lg flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-white" />
+                <CardTitle className="text-xl md:text-2xl font-bold mb-2 text-gray-900">Transaction Limits</CardTitle>
+                <CardDescription className="text-base text-gray-600">
+                  Maximum spending limits for your security
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-3xl md:text-4xl font-bold text-orange-600 mb-1">$200,000</div>
+                    <p className="text-sm text-gray-600 font-medium">Per transaction limit</p>
+                  </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+                  <div>
+                    <div className="text-3xl md:text-4xl font-bold text-orange-600 mb-1">$500,000</div>
+                    <p className="text-sm text-gray-600 font-medium">Daily spending limit</p>
+                  </div>
                 </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-2xl font-bold text-orange-600 mb-1">$200,000</div>
-                  <p className="text-sm text-muted-foreground">Per transaction</p>
-                </div>
-                <div className="h-px bg-border" />
-                <div>
-                  <div className="text-2xl font-bold text-orange-600 mb-1">$500,000</div>
-                  <p className="text-sm text-muted-foreground">Daily limit</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Trust Badge */}
+          <div className="text-center mt-12">
+            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-white border border-gray-200 shadow-sm">
+              <Shield className="w-5 h-5 text-blue-600" />
+              <p className="text-sm font-medium text-gray-700">
+                All transactions are secured with industry-standard encryption
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Use Cases Section with Images */}
-      <section className="container mx-auto px-4 py-20 relative">
+      <section className="container mx-auto px-4 py-20 relative bg-white">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Use Your Cards Anywhere</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Use Your Cards Anywhere</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Shop online, pay in stores, or subscribe to services - your dbank card works everywhere
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Online Shopping */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
             <div className="aspect-[4/3] relative overflow-hidden">
               <img
                 src="/person-shopping-online-on-laptop-with-credit-card-.jpg"
@@ -266,7 +299,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-10 h-10 bg-primary/90 backdrop-blur rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-blue-600/90 backdrop-blur rounded-lg flex items-center justify-center">
                     <ShoppingBag className="w-5 h-5 text-white" />
                   </div>
                 </div>
@@ -277,7 +310,7 @@ export default function HomePage() {
           </div>
 
           {/* In-Store Payments */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
             <div className="aspect-[4/3] relative overflow-hidden">
               <img
                 src="/person-paying-with-phone-contactless-payment-in-mo.jpg"
@@ -298,7 +331,7 @@ export default function HomePage() {
           </div>
 
           {/* Subscriptions */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
             <div className="aspect-[4/3] relative overflow-hidden">
               <img
                 src="/person-using-streaming-services-on-tablet--multipl.jpg"
@@ -321,17 +354,17 @@ export default function HomePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="container mx-auto px-4 py-20 relative">
+      <section className="container mx-auto px-4 py-20 relative bg-gray-50">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose dbank?</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Why Choose dbank?</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Experience the future of digital banking with instant cards and complete privacy
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Privacy First */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-green-300 hover:shadow-xl transition-all">
             <div className="aspect-video relative overflow-hidden">
               <img
                 src="/person-using-laptop-with-secure-lock-icon-privacy-.jpg"
@@ -354,7 +387,7 @@ export default function HomePage() {
           </div>
 
           {/* Instant Setup */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
             <div className="aspect-video relative overflow-hidden">
               <img
                 src="/person-holding-smartphone-with-credit-card-creatio.jpg"
@@ -364,7 +397,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-primary/90 backdrop-blur rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-600/90 backdrop-blur rounded-xl flex items-center justify-center">
                     <Zap className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -377,7 +410,7 @@ export default function HomePage() {
           </div>
 
           {/* Global Acceptance */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all">
             <div className="aspect-video relative overflow-hidden">
               <img
                 src="/world-map-with-payment-locations-global-acceptance.jpg"
@@ -400,7 +433,7 @@ export default function HomePage() {
           </div>
 
           {/* Easy Top-ups */}
-          <div className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-primary/50 transition-all">
+          <div className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all">
             <div className="aspect-video relative overflow-hidden">
               <img
                 src="/crypto-wallet-bitcoin-ethereum-digital-currency-pa.jpg"
@@ -425,91 +458,111 @@ export default function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="container mx-auto px-4 py-20 relative">
+      <section id="features" className="container mx-auto px-4 py-20 relative bg-white">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Everything You Need</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Powerful features to manage your digital cards with complete control and security
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-100 transition-all group">
             <CardHeader>
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <CreditCard className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Instant Card Creation</CardTitle>
-              <CardDescription>
+              <CardTitle className="group-hover:text-blue-600 transition-colors text-gray-900">
+                Instant Card Creation
+              </CardTitle>
+              <CardDescription className="text-gray-600">
                 Create virtual prepaid cards in seconds. No KYC required - just email and phone number
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-100 transition-all group">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <Wallet className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Flexible Top-ups</CardTitle>
-              <CardDescription>Add funds using multiple currencies including USDT, BTC, and more</CardDescription>
+              <CardTitle className="group-hover:text-blue-600 transition-colors text-gray-900">
+                Flexible Top-ups
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Add funds using multiple currencies including USDT, BTC, and more
+              </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-green-300 hover:shadow-lg hover:shadow-green-100 transition-all group">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <Shield className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Privacy & Security</CardTitle>
-              <CardDescription>
+              <CardTitle className="group-hover:text-green-600 transition-colors text-gray-900">
+                Privacy & Security
+              </CardTitle>
+              <CardDescription className="text-gray-600">
                 Non-KYC cards with instant freeze/unfreeze controls for complete security
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 transition-all group">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <History className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Transaction History</CardTitle>
-              <CardDescription>Track all transactions with detailed history and filtering options</CardDescription>
+              <CardTitle className="group-hover:text-orange-600 transition-colors text-gray-900">
+                Transaction History
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Track all transactions with detailed history and filtering options
+              </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-yellow-300 hover:shadow-lg hover:shadow-yellow-100 transition-all group">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-yellow-600 to-orange-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <Zap className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Real-time Updates</CardTitle>
-              <CardDescription>Get instant notifications for all card activities and balance changes</CardDescription>
+              <CardTitle className="group-hover:text-yellow-600 transition-colors text-gray-900">
+                Real-time Updates
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Get instant notifications for all card activities and balance changes
+              </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card/50 backdrop-blur border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+          <Card className="bg-white border-gray-200 hover:border-purple-300 hover:shadow-lg hover:shadow-purple-100 transition-all group">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                 <CreditCard className="w-6 h-6 text-white" />
               </div>
-              <CardTitle className="group-hover:text-primary transition-colors">Multi-card Management</CardTitle>
-              <CardDescription>Manage multiple cards from a single dashboard with ease</CardDescription>
+              <CardTitle className="group-hover:text-purple-600 transition-colors text-gray-900">
+                Multi-card Management
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Manage multiple cards from a single dashboard with ease
+              </CardDescription>
             </CardHeader>
           </Card>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 relative">
-        <Card className="bg-gradient-to-br from-primary/20 via-blue-500/10 to-purple-500/10 border-primary/20 backdrop-blur overflow-hidden relative">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-40 h-40 bg-primary rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-40 h-40 bg-blue-500 rounded-full blur-3xl" />
+      <section className="container mx-auto px-4 py-20 relative bg-gray-50">
+        <Card className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-blue-200 overflow-hidden relative">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-40 h-40 bg-blue-400 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-400 rounded-full blur-3xl" />
           </div>
           <CardContent className="p-12 text-center relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Ready to Get Started?</h2>
+            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
               Join thousands of users managing their digital cards with dbank
             </p>
             <Link href="/dashboard">
@@ -524,13 +577,13 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/50 backdrop-blur-xl">
+      <footer className="border-t border-gray-200 bg-white">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <Link href="/" className="flex items-center gap-2">
               <img src="/dbank-logo.svg" alt="dbank" className="h-6 w-auto" />
             </Link>
-            <p className="text-sm text-muted-foreground">© 2025 dbank. All rights reserved.</p>
+            <p className="text-sm text-gray-600">© 2025 dbank. All rights reserved.</p>
           </div>
         </div>
       </footer>
