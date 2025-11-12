@@ -35,6 +35,44 @@ const CHAIN_IDS = {
   polygon: 137,
 }
 
+async function fetchWithRetry(
+  url: string,
+  maxRetries = 3,
+  initialDelay = 1000,
+): Promise<{ ok: boolean; json: () => Promise<any>; status: number }> {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+
+      if (data.status === "0" && data.result?.includes("API access is temporarily unavailable")) {
+        if (attempt < maxRetries) {
+          const delay = initialDelay * Math.pow(2, attempt)
+          console.log(`[v0] Rate limit hit, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`)
+          await new Promise((resolve) => setTimeout(resolve, delay))
+          continue
+        }
+      }
+
+      return {
+        ok: response.ok,
+        json: async () => data,
+        status: response.status,
+      }
+    } catch (error) {
+      if (attempt < maxRetries) {
+        const delay = initialDelay * Math.pow(2, attempt)
+        console.log(`[v0] Request failed, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`)
+        await new Promise((resolve) => setTimeout(resolve, delay))
+        continue
+      }
+      throw error
+    }
+  }
+
+  throw new Error("Max retries exceeded")
+}
+
 async function verifyTransactionOnBlockchain(
   txHash: string,
   network: string,
@@ -52,11 +90,20 @@ async function verifyTransactionOnBlockchain(
 
     console.log("[v0] Verifying card topup transaction:", { txHash, network, chainId })
 
-    const receiptResponse = await fetch(receiptUrl)
+    const receiptResponse = await fetchWithRetry(receiptUrl, 3, 2000)
     const receiptData = await receiptResponse.json()
 
     if (receiptData.status === "0" || receiptData.message === "NOTOK") {
-      return { valid: false, error: receiptData.result || "Failed to fetch transaction from blockchain" }
+      const errorMessage = receiptData.result || "Failed to fetch transaction from blockchain"
+
+      if (errorMessage.includes("API access is temporarily unavailable")) {
+        return {
+          valid: false,
+          error: "Verification temporarily unavailable. Please try again in a few moments.",
+        }
+      }
+
+      return { valid: false, error: errorMessage }
     }
 
     const receipt = receiptData.result
@@ -112,6 +159,14 @@ async function verifyTransactionOnBlockchain(
     }
   } catch (error) {
     console.error("[v0] Blockchain verification error:", error)
+
+    if (error instanceof Error && error.message === "Max retries exceeded") {
+      return {
+        valid: false,
+        error: "Unable to verify transaction after multiple attempts. Please try again later.",
+      }
+    }
+
     return { valid: false, error: "Failed to verify transaction on blockchain" }
   }
 }

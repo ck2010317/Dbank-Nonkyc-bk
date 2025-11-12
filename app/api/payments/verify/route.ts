@@ -43,6 +43,45 @@ const FALLBACK_PRICES = {
   polygon: 0.8,
 }
 
+async function fetchWithRetry(
+  url: string,
+  maxRetries = 3,
+  initialDelay = 1000,
+): Promise<{ ok: boolean; json: () => Promise<any>; status: number }> {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+
+      // Check for rate limit errors
+      if (data.status === "0" && data.result?.includes("API access is temporarily unavailable")) {
+        if (attempt < maxRetries) {
+          const delay = initialDelay * Math.pow(2, attempt) // Exponential backoff
+          console.log(`[v0] Rate limit hit, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`)
+          await new Promise((resolve) => setTimeout(resolve, delay))
+          continue
+        }
+      }
+
+      return {
+        ok: response.ok,
+        json: async () => data,
+        status: response.status,
+      }
+    } catch (error) {
+      if (attempt < maxRetries) {
+        const delay = initialDelay * Math.pow(2, attempt)
+        console.log(`[v0] Request failed, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`)
+        await new Promise((resolve) => setTimeout(resolve, delay))
+        continue
+      }
+      throw error
+    }
+  }
+
+  throw new Error("Max retries exceeded")
+}
+
 async function getNativeTokenPrice(network: string): Promise<number | null> {
   const coinId = COINGECKO_IDS[network as keyof typeof COINGECKO_IDS]
   if (!coinId) return null
@@ -124,7 +163,7 @@ async function verifyTransactionOnBlockchain(
   network: string,
   expectedRecipient: string,
   expectedAmount: number,
-  etherscanApiKey: string,
+  alchemyApiKey: string,
 ): Promise<{ valid: boolean; error?: string; actualAmount?: number; isNativeToken?: boolean }> {
   try {
     const chainId = CHAIN_IDS[network as keyof typeof CHAIN_IDS]
@@ -132,36 +171,90 @@ async function verifyTransactionOnBlockchain(
       return { valid: false, error: `Unsupported network: ${network}` }
     }
 
-    const receiptUrl = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=proxy&action=eth_getTransactionReceipt&txhash=${txHash}&apikey=${etherscanApiKey}`
-    const txUrl = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${etherscanApiKey}`
+    let receiptUrl: string
+    let txUrl: string
 
-    console.log("[v0] Verifying transaction on blockchain:", { txHash, network, chainId })
-    console.log("[v0] Receipt URL:", receiptUrl)
-    console.log("[v0] Transaction URL:", txUrl)
-
-    const [receiptResponse, txResponse] = await Promise.all([fetch(receiptUrl), fetch(txUrl)])
-
-    console.log("[v0] Receipt HTTP status:", receiptResponse.status, receiptResponse.statusText)
-    console.log("[v0] Transaction HTTP status:", txResponse.status, txResponse.statusText)
-
-    const receiptData = await receiptResponse.json()
-    const txData = await txResponse.json()
-
-    console.log("[v0] Receipt API full response:", JSON.stringify(receiptData))
-    console.log("[v0] Transaction API full response:", JSON.stringify(txData))
-
-    console.log("[v0] Receipt API response:", receiptData.status, receiptData.message)
-    console.log("[v0] Transaction API response:", txData.status, txData.message)
-
-    if (!receiptResponse.ok || !txResponse.ok) {
-      return {
-        valid: false,
-        error: `Blockchain API error: Receipt ${receiptResponse.status}, Transaction ${txResponse.status}`,
-      }
+    if (network === "base") {
+      const alchemyBaseUrl = `https://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`
+      receiptUrl = alchemyBaseUrl
+      txUrl = alchemyBaseUrl
+    } else {
+      const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "67GSQJI8I7B6JVQD6MG2DR5EGJDFXHN5S6"
+      receiptUrl = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=proxy&action=eth_getTransactionReceipt&txhash=${txHash}&apikey=${etherscanApiKey}`
+      txUrl = `https://api.etherscan.io/v2/api?chainid=${chainId}&module=proxy&action=eth_getTransactionByHash&txhash=${txHash}&apikey=${etherscanApiKey}`
     }
 
-    if (receiptData.status === "0" || receiptData.message === "NOTOK") {
-      return { valid: false, error: receiptData.result || "Failed to fetch transaction from blockchain" }
+    console.log("[v0] Verifying transaction on blockchain:", { txHash, network, chainId })
+
+    let receiptData: any
+    let txData: any
+
+    if (network === "base") {
+      const [receiptResponse, txResponse] = await Promise.all([
+        fetch(receiptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: 1,
+            method: "eth_getTransactionReceipt",
+            params: [txHash],
+          }),
+        }),
+        fetch(txUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: 1,
+            method: "eth_getTransactionByHash",
+            params: [txHash],
+          }),
+        }),
+      ])
+
+      receiptData = await receiptResponse.json()
+      txData = await txResponse.json()
+
+      if (receiptData.error || !receiptData.result) {
+        return {
+          valid: false,
+          error: receiptData.error?.message || "Transaction not found or still pending",
+        }
+      }
+
+      if (txData.error || !txData.result) {
+        return {
+          valid: false,
+          error: txData.error?.message || "Transaction not found",
+        }
+      }
+
+      // Wrap in result format to match Etherscan structure
+      receiptData = { result: receiptData.result, status: "1" }
+      txData = { result: txData.result, status: "1" }
+    } else {
+      const [receiptResponse, txResponse] = await Promise.all([
+        fetchWithRetry(receiptUrl, 3, 2000),
+        fetchWithRetry(txUrl, 3, 2000),
+      ])
+
+      receiptData = await receiptResponse.json()
+      txData = await txResponse.json()
+
+      if (receiptData.status === "0" || receiptData.message === "NOTOK") {
+        const errorMessage = receiptData.result || "Failed to fetch transaction from blockchain"
+
+        if (errorMessage.includes("API access is temporarily unavailable")) {
+          return {
+            valid: false,
+            error:
+              "Blockchain verification is temporarily unavailable due to high network activity. Please try again in a few moments.",
+          }
+        }
+
+        return { valid: false, error: errorMessage }
+      }
     }
 
     const receipt = receiptData.result
@@ -268,6 +361,14 @@ async function verifyTransactionOnBlockchain(
     return { valid: true, actualAmount: usdAmount, isNativeToken: true }
   } catch (error) {
     console.error("[v0] Blockchain verification error:", error)
+
+    if (error instanceof Error && error.message === "Max retries exceeded") {
+      return {
+        valid: false,
+        error: "Unable to verify transaction after multiple attempts. Please try again later.",
+      }
+    }
+
     return { valid: false, error: "Failed to verify transaction on blockchain" }
   }
 }
@@ -373,7 +474,7 @@ export async function POST(request: Request) {
 
     console.log("[v0] Transaction hash is unique, proceeding with verification")
 
-    const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "67GSQJI8I7B6JVQD6MG2DR5EGJDFXHN5S6"
+    const alchemyApiKey = "cA62GZ7Q0Vv90DLzu36DD"
 
     const paymentWallet = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
     const normalizedNetwork = network.toLowerCase()
@@ -382,7 +483,7 @@ export async function POST(request: Request) {
       normalizedNetwork,
       paymentWallet,
       amount,
-      etherscanApiKey,
+      alchemyApiKey,
     )
 
     if (!verification.valid) {
