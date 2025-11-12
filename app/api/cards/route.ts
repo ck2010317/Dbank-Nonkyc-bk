@@ -19,35 +19,21 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const supabaseUrl =
-      process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || process.env.SUPABASE_SUPABASE_URL
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-    const supabaseAdmin = createServerClient(supabaseUrl!, supabaseServiceKey, {
-      cookies: {
-        getAll() {
-          return []
-        },
-        setAll() {},
-      },
-    })
-
-    const { data: userCards, error: cardsError } = await supabaseAdmin
+    // Get user's card mappings from database
+    const { data: userCards, error: dbError } = await supabase
       .from("cards")
-      .select("zeroid_card_id, title")
+      .select("zeroid_card_id")
       .eq("user_id", user.id)
 
-    if (cardsError) {
-      console.error("[v0] Error fetching user cards from database:", cardsError)
+    if (dbError) {
+      console.error("[v0] Error fetching user cards from database:", dbError)
       return NextResponse.json({ error: "Failed to fetch cards" }, { status: 500 })
     }
 
-    console.log("[v0] User has", userCards?.length || 0, "cards in database")
-    console.log(
-      "[v0] User's card IDs:",
-      userCards?.map((c) => c.zeroid_card_id),
-    )
+    const userCardIds = new Set(userCards?.map((c) => c.zeroid_card_id) || [])
+    console.log("[v0] User has", userCardIds.size, "cards")
 
-    // Fetch all cards from ZeroID for enrichment
+    // Fetch all cards from ZeroID
     console.log("[v0] Fetching cards from ZeroID API...")
     const response = await fetch(`${API_BASE_URL}/cards`, {
       headers: {
@@ -68,45 +54,80 @@ export async function GET() {
       )
     }
 
-    let zeroidCards: any[] = []
-    if (response.ok) {
+    if (!response.ok) {
+      let error
       try {
-        const data = JSON.parse(responseText)
-        zeroidCards = Array.isArray(data) ? data : data.cards || []
-        console.log("[v0] ZeroID returned", zeroidCards.length, "total cards")
-      } catch (parseError) {
-        console.error("[v0] Failed to parse ZeroID response:", parseError)
+        error = JSON.parse(responseText)
+      } catch {
+        error = { message: responseText || "Failed to fetch cards" }
+      }
+      console.error("[v0] ZeroID API error:", error)
+      return NextResponse.json({ error: error.message || "Failed to fetch cards" }, { status: response.status })
+    }
+
+    let data
+    try {
+      data = JSON.parse(responseText)
+    } catch (parseError) {
+      console.error("[v0] Failed to parse response as JSON:", parseError)
+      return NextResponse.json({ error: "Invalid response from ZeroID API" }, { status: 500 })
+    }
+
+    const cards = Array.isArray(data) ? data : data.cards || []
+    console.log("[v0] ZeroID returned", cards.length, "total cards")
+
+    const supabaseUrl =
+      process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || process.env.SUPABASE_SUPABASE_URL
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const supabaseAdmin = createServerClient(supabaseUrl!, supabaseServiceKey, {
+      cookies: {
+        getAll() {
+          return []
+        },
+        setAll() {},
+      },
+    })
+
+    const { data: allMappedCards } = await supabaseAdmin.from("cards").select("zeroid_card_id")
+
+    const allMappedCardIds = new Set(allMappedCards?.map((c) => c.zeroid_card_id) || [])
+    console.log("[v0] Found", allMappedCardIds.size, "total mapped cards in database")
+
+    // Only try to sync cards that don't exist in database at all
+    const unmappedCards = cards.filter((card: any) => !allMappedCardIds.has(card.id))
+
+    if (unmappedCards.length > 0) {
+      console.log("[v0] Found", unmappedCards.length, "unmapped cards. Auto-syncing to current user...")
+
+      for (const card of unmappedCards) {
+        try {
+          const { error: insertError } = await supabaseAdmin.from("cards").insert({
+            user_id: user.id,
+            zeroid_card_id: card.id,
+            title: card.title || "Untitled Card",
+          })
+
+          if (insertError) {
+            console.error("[v0] Failed to sync card", card.id, ":", insertError.message)
+          } else {
+            console.log("[v0] Successfully synced card", card.id, "to user")
+            userCardIds.add(card.id)
+          }
+        } catch (syncError) {
+          console.error("[v0] Error syncing card", card.id, ":", syncError)
+        }
       }
     }
 
-    const zeroidCardMap = new Map(zeroidCards.map((card) => [card.id, card]))
+    const userOwnedCards = cards.filter((card: any) => userCardIds.has(card.id))
 
-    const enrichedCards = (userCards || []).map((dbCard) => {
-      const zeroidData = zeroidCardMap.get(dbCard.zeroid_card_id)
+    const cardsWithBalance = userOwnedCards.map((card: any) => ({
+      ...card,
+      balance: (card.spend_cap || 0) - (card.spent_amount || 0),
+    }))
 
-      if (zeroidData) {
-        // Card found in ZeroID - return full data
-        return {
-          ...zeroidData,
-          balance: (zeroidData.spend_cap || 0) - (zeroidData.spent_amount || 0),
-        }
-      } else {
-        // Card not found in ZeroID API response - return basic info from database
-        console.log("[v0] Card", dbCard.zeroid_card_id, "not found in ZeroID response, showing basic info")
-        return {
-          id: dbCard.zeroid_card_id,
-          title: dbCard.title || "Card",
-          status: "pending_sync",
-          balance: 0,
-          spend_cap: 0,
-          spent_amount: 0,
-          last_four: "****",
-        }
-      }
-    })
-
-    console.log("[v0] Returning", enrichedCards.length, "cards for user")
-    return NextResponse.json(enrichedCards)
+    console.log("[v0] Returning", cardsWithBalance.length, "cards for user")
+    return NextResponse.json(cardsWithBalance)
   } catch (error) {
     console.error("[v0] Error fetching cards:", error)
     return NextResponse.json({ error: "Failed to fetch cards" }, { status: 500 })
