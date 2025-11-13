@@ -78,7 +78,7 @@ export function CardVisual({
         </div>
 
         {/* Bottom section */}
-        <div className="flex items-end justify-between gap-3 mt-4 md:mt-6">
+        <div className="flex items-end justify-between gap-3 mt-auto pb-1">
           <div className="flex-shrink min-w-0 max-w-[45%]">
             <p className="text-[10px] md:text-xs text-white/90 mb-0.5 leading-none">Card Holder</p>
             <p className="text-xs md:text-sm font-medium uppercase text-white truncate leading-tight">{holderName}</p>
