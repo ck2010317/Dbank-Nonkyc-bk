@@ -12,6 +12,8 @@ import {
   ShoppingBag,
   Smartphone,
   Globe,
+  Coins,
+  TrendingUp,
 } from "lucide-react"
 // Importing 3D card showcase component
 import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
@@ -56,6 +58,12 @@ export default function HomePage() {
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
               >
                 How it Works
+              </Link>
+              <Link
+                href="#tokenomics"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+              >
+                Tokenomics
               </Link>
               <Link
                 href="/preload-cards"
@@ -584,6 +592,99 @@ export default function HomePage() {
                 Manage multiple cards from a single dashboard with ease
               </CardDescription>
             </CardHeader>
+          </Card>
+        </div>
+      </section>
+
+      {/* Tokenomics Section */}
+      <section
+        id="tokenomics"
+        className="container mx-auto px-4 py-24 relative bg-gradient-to-b from-white via-blue-50/40 to-indigo-50/30"
+      >
+        <div className="text-center mb-16 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-semibold mb-6">
+            <Coins className="w-4 h-4" />
+            <span>DBANK Token Economics</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Tokenomics
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Sustainable token distribution designed for long-term growth
+          </p>
+        </div>
+
+        <div className="max-w-6xl mx-auto">
+          {/* Key Metrics - Simplified */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            {/* Total Supply */}
+            <Card className="bg-white border-blue-100 hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <Coins className="w-4 h-4 text-blue-500" />
+                  Total Supply
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-5xl font-bold text-blue-600">10M</div>
+                <p className="text-xs text-gray-500 mt-1">Fixed maximum supply</p>
+              </CardContent>
+            </Card>
+
+            {/* Tax */}
+            <Card className="bg-white border-purple-100 hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-purple-500" />
+                  Buy/Sell Tax
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-5xl font-bold text-purple-600">5/5%</div>
+                <p className="text-xs text-gray-500 mt-1">Transaction tax structure</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Token Utility - Simplified */}
+          <Card className="bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-2xl">Token Utility</CardTitle>
+              <CardDescription className="text-blue-100">Real-world use cases for DBANK token</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <CreditCard className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Card Creation</h3>
+                    <p className="text-sm text-blue-100">Hold tokens to create virtual prepaid cards</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Coins className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Governance Rights</h3>
+                    <p className="text-sm text-blue-100">Vote on platform decisions and feature updates</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Premium Features</h3>
+                    <p className="text-sm text-blue-100">Access exclusive features and lower transaction fees</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </div>
       </section>

@@ -176,6 +176,9 @@ export default function AnalyticsPage() {
             <div className="flex items-center gap-3">
               <div className="text-sm text-muted-foreground hidden md:block">{userEmail}</div>
               <Button variant="outline" size="sm" asChild>
+                <Link href="/dashboard/tokenomics">Tokenomics</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
                 <Link href="/dashboard">Back to Dashboard</Link>
               </Button>
               <Button variant="outline" size="sm" onClick={handleLogout}>

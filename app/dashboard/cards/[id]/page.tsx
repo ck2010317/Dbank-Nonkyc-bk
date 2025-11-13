@@ -247,8 +247,8 @@ export default function CardDetailPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Column - Card Visual and Actions */}
           <div className="lg:col-span-1 space-y-6">
-            <Card className="bg-card border-border">
-              <CardContent className="p-6 space-y-4">
+            <Card className="bg-card border-border overflow-hidden">
+              <CardContent className="p-4 md:p-6 space-y-4 min-h-0">
                 <CardVisual
                   cardNumber={getCardNumber()}
                   expiryDate={getExpiryDate()}

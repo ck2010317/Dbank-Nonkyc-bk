@@ -203,17 +203,6 @@ export default function DashboardPage() {
               <Button
                 variant="outline"
                 size="sm"
-                asChild
-                className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
-              >
-                <Link href="/buy-credits">
-                  <Plus className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
-                  <span className="hidden sm:inline">Buy Credits</span>
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
                 onClick={handleLogout}
                 className="h-7 text-xs px-2 sm:h-9 sm:text-sm sm:px-3 bg-transparent"
               >
