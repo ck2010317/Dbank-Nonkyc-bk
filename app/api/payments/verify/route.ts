@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { createClient as createSupabaseClient } from "@supabase/supabase-js"
+import { verifyTonTransaction } from "@/lib/blockchain-verifier"
 
 // USDT/USDC contract addresses on different chains
 const TOKEN_CONTRACTS = {
@@ -8,39 +9,32 @@ const TOKEN_CONTRACTS = {
     usdt: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
     usdc: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   },
-  bsc: {
-    usdt: "0x55d398326f99059fF775485246999027B3197955",
-    usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-  },
   ethereum: {
     usdt: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     usdc: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
   },
-  polygon: {
-    usdt: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
-    usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+  ton: {
+    usdt: "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
+    usdc: "",
   },
 }
 
 const CHAIN_IDS = {
   base: 8453,
-  bsc: 56,
   ethereum: 1,
-  polygon: 137,
+  ton: -239,
 }
 
 const COINGECKO_IDS = {
   base: "ethereum",
-  bsc: "binancecoin",
   ethereum: "ethereum",
-  polygon: "matic-network",
+  ton: "the-open-network",
 }
 
 const FALLBACK_PRICES = {
   base: 3200,
-  bsc: 600,
   ethereum: 3200,
-  polygon: 0.8,
+  ton: 5.5,
 }
 
 async function fetchWithRetry(
@@ -108,6 +102,7 @@ async function getNativeTokenPrice(network: string): Promise<number | null> {
       ethereum: "ethereum",
       binancecoin: "binance-coin",
       "matic-network": "polygon",
+      "the-open-network": "ton",
     }
     const coinCapId = coinCapIds[coinId]
 
@@ -131,6 +126,7 @@ async function getNativeTokenPrice(network: string): Promise<number | null> {
       ethereum: "ETHUSDT",
       binancecoin: "BNBUSDT",
       "matic-network": "MATICUSDT",
+      ton: "TONUSDT", // Assuming TON-USDT symbol on Binance
     }
     const symbol = binanceSymbols[coinId]
 
@@ -166,6 +162,21 @@ async function verifyTransactionOnBlockchain(
   alchemyApiKey: string,
 ): Promise<{ valid: boolean; error?: string; actualAmount?: number; isNativeToken?: boolean }> {
   try {
+    if (network === "ton") {
+      console.log("[v0] Using TON verification for transaction:", txHash)
+      const tonResult = await verifyTonTransaction(txHash, "usdt", expectedAmount)
+      
+      if (!tonResult.valid) {
+        return { valid: false, error: tonResult.error }
+      }
+      
+      return { 
+        valid: true, 
+        actualAmount: tonResult.amount,
+        isNativeToken: false // TON USDT is a Jetton token, not native TON
+      }
+    }
+
     const chainId = CHAIN_IDS[network as keyof typeof CHAIN_IDS]
     if (!chainId) {
       return { valid: false, error: `Unsupported network: ${network}` }

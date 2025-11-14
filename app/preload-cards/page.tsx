@@ -6,9 +6,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, CreditCard, ShoppingCart, CheckCircle2, Copy } from "lucide-react"
+import { Loader2, CreditCard, ShoppingCart, CheckCircle2, Copy } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { getDepositAddress, getNetworkLabel } from "@/lib/blockchain-verifier"
 
 interface PreloadCard {
   id: string
@@ -26,9 +28,11 @@ export default function PreloadCardsPage() {
   const [purchasing, setPurchasing] = useState(false)
   const [selectedCard, setSelectedCard] = useState<PreloadCard | null>(null)
   const [transactionHash, setTransactionHash] = useState("")
+  const [network, setNetwork] = useState("BASE")
   const { toast } = useToast()
 
-  const PAYMENT_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
+  const paymentAddress = getDepositAddress(network)
+  const networkLabel = getNetworkLabel(network)
 
   useEffect(() => {
     fetchCards()
@@ -78,6 +82,7 @@ export default function PreloadCardsPage() {
         body: JSON.stringify({
           preloadCardId: selectedCard.id,
           transactionHash: transactionHash.trim(),
+          network: network,
         }),
       })
 
@@ -146,7 +151,8 @@ export default function PreloadCardsPage() {
                   <div className="space-y-2">
                     <p className="font-semibold">Payment Instructions:</p>
                     <ol className="ml-4 list-decimal space-y-1 text-sm">
-                      <li>Send exactly ${selectedCard.price} worth of ETH to the address below on Base network</li>
+                      <li>Select your preferred payment network below</li>
+                      <li>Send exactly ${selectedCard.price} worth of USDT to the address shown</li>
                       <li>Copy your transaction hash after sending</li>
                       <li>Paste the transaction hash below and click "Verify Payment"</li>
                       <li>After verification, the card will be added to your account</li>
@@ -156,28 +162,42 @@ export default function PreloadCardsPage() {
               </Alert>
 
               <div className="space-y-2">
-                <Label>Payment Address (Base Network)</Label>
+                <Label>Payment Network</Label>
+                <Select value={network} onValueChange={setNetwork}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ETHEREUM">Ethereum (ETH)</SelectItem>
+                    <SelectItem value="BASE">Base Chain</SelectItem>
+                    <SelectItem value="TON">TON Network</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Payment Address ({networkLabel})</Label>
                 <div className="flex gap-2">
-                  <Input value={PAYMENT_ADDRESS} readOnly className="font-mono text-sm" />
+                  <Input value={paymentAddress} readOnly className="font-mono text-sm" />
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={() => {
-                      navigator.clipboard.writeText(PAYMENT_ADDRESS)
+                      navigator.clipboard.writeText(paymentAddress)
                       toast({ title: "Copied!", description: "Address copied to clipboard" })
                     }}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground">Send payment to this address on Base network</p>
+                <p className="text-xs text-muted-foreground">Send USDT to this address on {networkLabel}</p>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="txHash">Transaction Hash</Label>
                 <Input
                   id="txHash"
-                  placeholder="0x..."
+                  placeholder={network === 'TON' ? 'TON transaction hash...' : '0x...'}
                   value={transactionHash}
                   onChange={(e) => setTransactionHash(e.target.value)}
                   className="font-mono"

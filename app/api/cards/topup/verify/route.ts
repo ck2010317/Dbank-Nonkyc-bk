@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { createClient as createServerClient } from "@/lib/supabase/server"
 import { createClient } from "@supabase/supabase-js"
 import { zeroidApi } from "@/lib/zeroid-api"
+import { verifyTonTransaction } from "@/lib/blockchain-verifier"
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -14,25 +15,20 @@ const TOKEN_CONTRACTS = {
     usdt: "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
     usdc: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   },
-  bsc: {
-    usdt: "0x55d398326f99059fF775485246999027B3197955",
-    usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-  },
   ethereum: {
     usdt: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     usdc: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
   },
-  polygon: {
-    usdt: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
-    usdc: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+  ton: {
+    usdt: "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
+    usdc: "",
   },
 }
 
 const CHAIN_IDS = {
   base: 8453,
-  bsc: 56,
   ethereum: 1,
-  polygon: 137,
+  ton: -239,
 }
 
 async function fetchWithRetry(
@@ -81,6 +77,20 @@ async function verifyTransactionOnBlockchain(
   expectedCurrency: string,
 ): Promise<{ valid: boolean; error?: string; actualAmount?: number }> {
   try {
+    if (network === "ton") {
+      console.log("[v0] Using TON verification for card topup transaction:", txHash)
+      const tonResult = await verifyTonTransaction(txHash, expectedCurrency, expectedAmount)
+      
+      if (!tonResult.valid) {
+        return { valid: false, error: tonResult.error }
+      }
+      
+      return { 
+        valid: true, 
+        actualAmount: tonResult.amount
+      }
+    }
+
     const chainId = CHAIN_IDS[network as keyof typeof CHAIN_IDS]
     if (!chainId) {
       return { valid: false, error: `Unsupported network: ${network}` }

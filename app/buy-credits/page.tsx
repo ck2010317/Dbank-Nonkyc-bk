@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Loader2, AlertCircle, CheckCircle2, Copy, CreditCard, ArrowLeft } from "lucide-react"
+import { Loader2, AlertCircle, CheckCircle2, Copy, CreditCard, ArrowLeft } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { getDepositAddress, getNetworkLabel } from "@/lib/blockchain-verifier"
 
 export default function BuyCreditsPage() {
   const [transactionHash, setTransactionHash] = useState("")
@@ -22,10 +23,11 @@ export default function BuyCreditsPage() {
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
 
-  const WALLET_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
+  const walletAddress = getDepositAddress(network)
+  const networkLabel = getNetworkLabel(network)
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(WALLET_ADDRESS)
+    navigator.clipboard.writeText(walletAddress)
     toast({
       title: "Address copied",
       description: "Wallet address copied to clipboard",
@@ -113,13 +115,12 @@ export default function BuyCreditsPage() {
               <div className="space-y-2">
                 <h3 className="font-semibold text-sm">Step 1: Send Payment</h3>
                 <p className="text-sm text-muted-foreground">
-                  Send USDT or USDC on Ethereum (ETH) or Base network to the wallet address below. Each credit costs
-                  $30.
+                  Send USDT on your chosen network to the wallet address below. Each credit costs $30.
                 </p>
                 <div className="bg-background rounded-lg p-3 border border-border">
-                  <Label className="text-xs text-muted-foreground">Wallet Address</Label>
+                  <Label className="text-xs text-muted-foreground">Wallet Address ({networkLabel})</Label>
                   <div className="flex items-center gap-2 mt-1">
-                    <code className="text-xs font-mono flex-1 break-all">{WALLET_ADDRESS}</code>
+                    <code className="text-xs font-mono flex-1 break-all">{walletAddress}</code>
                     <Button size="sm" variant="ghost" onClick={handleCopyAddress}>
                       <Copy className="w-4 h-4" />
                     </Button>
@@ -147,9 +148,9 @@ export default function BuyCreditsPage() {
                 <AlertTitle className="text-blue-500">Pricing</AlertTitle>
                 <AlertDescription className="text-sm text-blue-400">
                   <ul className="list-disc list-inside space-y-1 mt-2">
-                    <li>1 Credit = $30 USDT/USDC = 1 Card</li>
-                    <li>5 Credits = $150 USDT/USDC = 5 Cards</li>
-                    <li>10 Credits = $300 USDT/USDC = 10 Cards</li>
+                    <li>1 Credit = $30 USDT = 1 Card</li>
+                    <li>5 Credits = $150 USDT = 5 Cards</li>
+                    <li>10 Credits = $300 USDT = 10 Cards</li>
                   </ul>
                 </AlertDescription>
               </Alert>
@@ -185,9 +186,7 @@ export default function BuyCreditsPage() {
                       <SelectContent>
                         <SelectItem value="ETHEREUM">Ethereum (ETH)</SelectItem>
                         <SelectItem value="BASE">Base Chain</SelectItem>
-                        <SelectItem value="BSC">Binance Smart Chain (BSC)</SelectItem>
-                        <SelectItem value="POLYGON">Polygon (MATIC)</SelectItem>
-                        <SelectItem value="TRON">Tron (TRX)</SelectItem>
+                        <SelectItem value="TON">TON Network</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -200,7 +199,7 @@ export default function BuyCreditsPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="USDT">USDT (Tether)</SelectItem>
-                        <SelectItem value="USDC">USDC (USD Coin)</SelectItem>
+                        {network !== 'TON' && <SelectItem value="USDC">USDC (USD Coin)</SelectItem>}
                       </SelectContent>
                     </Select>
                   </div>
@@ -230,14 +229,14 @@ export default function BuyCreditsPage() {
                     <Input
                       id="txHash"
                       type="text"
-                      placeholder="0x..."
+                      placeholder={network === 'TON' ? 'TON transaction hash...' : '0x...'}
                       value={transactionHash}
                       onChange={(e) => setTransactionHash(e.target.value)}
                       required
                       className="bg-background border-border font-mono text-sm"
                     />
                     <p className="text-xs text-muted-foreground">
-                      Copy from your wallet or block explorer (e.g., BscScan, Etherscan)
+                      Copy from your wallet or block explorer
                     </p>
                   </div>
 

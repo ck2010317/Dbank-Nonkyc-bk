@@ -16,7 +16,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, CheckCircle2, Copy } from "lucide-react"
+import { AlertCircle, CheckCircle2, Copy } from 'lucide-react'
+import { getDepositAddress, getNetworkLabel } from "@/lib/blockchain-verifier"
 
 interface DepositProofDialogProps {
   open: boolean
@@ -24,10 +25,9 @@ interface DepositProofDialogProps {
   onSuccess?: () => void
 }
 
-const DEPOSIT_ADDRESS = "0x46278303c6ffe76eda245d5e6c4cf668231f73a2"
-
 export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositProofDialogProps) {
   const [currency, setCurrency] = useState("usdt")
+  const [network, setNetwork] = useState("ETHEREUM")
   const [amount, setAmount] = useState("")
   const [transactionHash, setTransactionHash] = useState("")
   const [loading, setLoading] = useState(false)
@@ -35,8 +35,11 @@ export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositPro
   const [success, setSuccess] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const depositAddress = getDepositAddress(network)
+  const networkLabel = getNetworkLabel(network)
+
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(DEPOSIT_ADDRESS)
+    navigator.clipboard.writeText(depositAddress)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -55,6 +58,7 @@ export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositPro
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           currency,
+          network,
           amount: Number.parseFloat(amount),
           transactionHash,
         }),
@@ -94,14 +98,30 @@ export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositPro
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label>Deposit Address (ERC20)</Label>
+            <Label htmlFor="network">Network</Label>
+            <Select value={network} onValueChange={setNetwork}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ETHEREUM">Ethereum (ETH)</SelectItem>
+                <SelectItem value="BASE">Base Chain</SelectItem>
+                <SelectItem value="TON">TON Network</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Deposit Address ({networkLabel})</Label>
             <div className="flex gap-2">
-              <Input value={DEPOSIT_ADDRESS} readOnly className="font-mono text-sm" />
+              <Input value={depositAddress} readOnly className="font-mono text-sm" />
               <Button type="button" variant="outline" size="icon" onClick={handleCopyAddress}>
                 {copied ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">Send USDT or USDC (ERC20) to this address</p>
+            <p className="text-xs text-muted-foreground">
+              {network === 'TON' ? 'Send USDT (Jetton) to this TON address' : 'Send USDT or USDC (ERC20) to this address'}
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -112,7 +132,7 @@ export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositPro
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="usdt">USDT (Tether USD)</SelectItem>
-                <SelectItem value="usdc">USDC</SelectItem>
+                {network !== 'TON' && <SelectItem value="usdc">USDC</SelectItem>}
               </SelectContent>
             </Select>
           </div>
@@ -136,7 +156,7 @@ export function DepositProofDialog({ open, onOpenChange, onSuccess }: DepositPro
             <Label htmlFor="txHash">Transaction Hash</Label>
             <Input
               id="txHash"
-              placeholder="0x..."
+              placeholder={network === 'TON' ? 'TON transaction hash...' : '0x...'}
               value={transactionHash}
               onChange={(e) => setTransactionHash(e.target.value)}
               required

@@ -8,6 +8,7 @@ const PAYMENT_CONFIG = {
     usdt_address: process.env.USDT_DEPOSIT_ADDRESS || "0x46278303c6ffe76eda245d5e6c4cf668231f73a2",
     usdc_address: process.env.USDC_DEPOSIT_ADDRESS || "0x46278303c6ffe76eda245d5e6c4cf668231f73a2",
     btc_address: process.env.BTC_DEPOSIT_ADDRESS || "",
+    ton_usdt_address: process.env.TON_USDT_DEPOSIT_ADDRESS || "UQCpzpXAQkgrpGYtC3iD6HOSPRLhTIm3VCsPZXSKOyxFHjBn",
   },
   bank: {
     bank_name: process.env.BANK_NAME || "",
@@ -139,6 +140,8 @@ function getCryptoAddress(currency: string): string {
     usdt: PAYMENT_CONFIG.crypto.usdt_address,
     usdc: PAYMENT_CONFIG.crypto.usdc_address,
     btc: PAYMENT_CONFIG.crypto.btc_address,
+    ton_usdt: PAYMENT_CONFIG.crypto.ton_usdt_address,
+    tonusdt: PAYMENT_CONFIG.crypto.ton_usdt_address,
   }
   return addresses[currency.toLowerCase()] || ""
 }
