@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Much lighter, barely-there blue tint */
-  --background: oklch(0.985 0.008 250); /* Very subtle blue-tinted white */
+  /* Changed to a more noticeable off-white with stronger blue tint */
+  --background: oklch(0.96 0.025 250); /* Soft blue-tinted off-white */
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0); /* Pure white cards for contrast */
   --card-foreground: oklch(0.145 0 0);
@@ -13,18 +13,16 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.45 0.25 250);
   --primary-foreground: oklch(1 0 0);
-  /* Reduced blue tint on secondary/muted/accent */
-  --secondary: oklch(0.97 0.008 250); /* Very light blue tint */
+  --secondary: oklch(0.93 0.03 250); /* Stronger blue tint */
   --secondary-foreground: oklch(0.145 0 0);
-  --muted: oklch(0.97 0.008 250); /* Very light blue tint */
+  --muted: oklch(0.93 0.03 250); /* Stronger blue tint */
   --muted-foreground: oklch(0.5 0 0);
-  --accent: oklch(0.97 0.008 250); /* Very light blue tint */
+  --accent: oklch(0.93 0.03 250); /* Stronger blue tint */
   --accent-foreground: oklch(0.145 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
-  /* Lighter borders */
-  --border: oklch(0.92 0.008 250); /* Subtle blue tint */
-  --input: oklch(0.92 0.008 250); /* Subtle blue tint */
+  --border: oklch(0.85 0.025 250); /* Stronger blue tint */
+  --input: oklch(0.85 0.025 250); /* Stronger blue tint */
   --ring: oklch(0.45 0.25 250);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -36,10 +34,9 @@
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.45 0.25 250);
   --sidebar-primary-foreground: oklch(1 0 0);
-  /* Lighter sidebar accent */
-  --sidebar-accent: oklch(0.97 0.008 250); /* Very light blue tint */
+  --sidebar-accent: oklch(0.93 0.03 250); /* Stronger blue tint */
   --sidebar-accent-foreground: oklch(0.145 0 0);
-  --sidebar-border: oklch(0.92 0.008 250); /* Subtle blue tint */
+  --sidebar-border: oklch(0.85 0.025 250); /* Stronger blue tint */
   --sidebar-ring: oklch(0.45 0.25 250);
 }
 
