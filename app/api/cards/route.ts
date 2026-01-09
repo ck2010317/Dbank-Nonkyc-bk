@@ -33,51 +33,73 @@ export async function GET() {
     const userCardIds = new Set(userCards?.map((c) => c.zeroid_card_id) || [])
     console.log("[v0] User has", userCardIds.size, "cards in database:", Array.from(userCardIds))
 
-    // Fetch all cards from ZeroID
-    console.log("[v0] Fetching cards from ZeroID API...")
-    const response = await fetch(`${API_BASE_URL}/cards`, {
-      headers: {
-        "X-API-Key": API_KEY,
-        "Content-Type": "application/json",
-      },
-    })
+    // Fetch all cards from ZeroID with pagination
+    console.log("[v0] Fetching cards from ZeroID API with pagination...")
+    const allZeroIDCards: any[] = []
+    let offset = 0
+    const limit = 100 // Fetch 100 per page to get all cards
+    let hasMore = true
 
-    console.log("[v0] ZeroID API response status:", response.status)
+    while (hasMore) {
+      const paginatedUrl = `${API_BASE_URL}/cards?limit=${limit}&offset=${offset}`
+      console.log("[v0] Fetching page with offset:", offset)
 
-    const responseText = await response.text()
+      const response = await fetch(paginatedUrl, {
+        headers: {
+          "X-API-Key": API_KEY,
+          "Content-Type": "application/json",
+        },
+      })
 
-    if (responseText.trim().startsWith("<!DOCTYPE html>") || responseText.includes("<html")) {
-      console.error("[v0] ZeroID API returned HTML error page (likely 502/503)")
-      return NextResponse.json(
-        { error: "ZeroID API is temporarily unavailable. Please try again in a few minutes." },
-        { status: 503 },
-      )
-    }
+      console.log("[v0] ZeroID API response status:", response.status)
 
-    if (!response.ok) {
-      let error
-      try {
-        error = JSON.parse(responseText)
-      } catch {
-        error = { message: responseText || "Failed to fetch cards" }
+      const responseText = await response.text()
+
+      if (responseText.trim().startsWith("<!DOCTYPE html>") || responseText.includes("<html")) {
+        console.error("[v0] ZeroID API returned HTML error page (likely 502/503)")
+        return NextResponse.json(
+          { error: "ZeroID API is temporarily unavailable. Please try again in a few minutes." },
+          { status: 503 },
+        )
       }
-      console.error("[v0] ZeroID API error:", error)
-      return NextResponse.json({ error: error.message || "Failed to fetch cards" }, { status: response.status })
+
+      if (!response.ok) {
+        let error
+        try {
+          error = JSON.parse(responseText)
+        } catch {
+          error = { message: responseText || "Failed to fetch cards" }
+        }
+        console.error("[v0] ZeroID API error:", error)
+        return NextResponse.json({ error: error.message || "Failed to fetch cards" }, { status: response.status })
+      }
+
+      let data
+      try {
+        data = JSON.parse(responseText)
+      } catch (parseError) {
+        console.error("[v0] Failed to parse response as JSON:", parseError)
+        return NextResponse.json({ error: "Invalid response from ZeroID API" }, { status: 500 })
+      }
+
+      const cards = Array.isArray(data) ? data : data.cards || []
+      const pageInfo = !Array.isArray(data) ? data : null
+
+      console.log("[v0] Fetched", cards.length, "cards from offset", offset)
+      allZeroIDCards.push(...cards)
+
+      // Check if there are more cards to fetch
+      if (pageInfo?.has_more === true) {
+        offset += limit
+      } else {
+        hasMore = false
+      }
     }
 
-    let data
-    try {
-      data = JSON.parse(responseText)
-    } catch (parseError) {
-      console.error("[v0] Failed to parse response as JSON:", parseError)
-      return NextResponse.json({ error: "Invalid response from ZeroID API" }, { status: 500 })
-    }
-
-    const cards = Array.isArray(data) ? data : data.cards || []
-    console.log("[v0] ZeroID returned", cards.length, "total cards")
+    console.log("[v0] ZeroID returned", allZeroIDCards.length, "total cards across all pages")
     console.log(
       "[v0] ZeroID card IDs:",
-      cards.map((c: any) => c.id),
+      allZeroIDCards.map((c: any) => c.id),
     )
 
     const supabaseUrl =
@@ -98,7 +120,7 @@ export async function GET() {
     console.log("[v0] Found", allMappedCardIds.size, "total mapped cards in database")
 
     // Only try to sync cards that don't exist in database at all
-    const unmappedCards = cards.filter((card: any) => !allMappedCardIds.has(card.id))
+    const unmappedCards = allZeroIDCards.filter((card: any) => !allMappedCardIds.has(card.id))
 
     if (unmappedCards.length > 0) {
       console.log("[v0] Found", unmappedCards.length, "unmapped cards. Auto-syncing to current user...")
@@ -123,8 +145,10 @@ export async function GET() {
       }
     }
 
-    const cardsInResponse = cards.filter((card: any) => userCardIds.has(card.id))
-    const missingCardIds = Array.from(userCardIds).filter((cardId) => !cards.some((card: any) => card.id === cardId))
+    const cardsInResponse = allZeroIDCards.filter((card: any) => userCardIds.has(card.id))
+    const missingCardIds = Array.from(userCardIds).filter(
+      (cardId) => !allZeroIDCards.some((card: any) => card.id === cardId),
+    )
 
     console.log("[v0] Cards found in ZeroID response:", cardsInResponse.length)
     console.log("[v0] Missing cards (need individual fetch):", missingCardIds.length, missingCardIds)
