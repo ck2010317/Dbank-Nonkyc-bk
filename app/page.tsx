@@ -18,6 +18,7 @@ import {
 // Importing 3D card showcase component
 import { ThreeDCardShowcase } from "@/components/3d-card-showcase"
 import { LiveStats } from "@/components/live-stats"
+import { TerminalStatus } from "@/components/terminal-status"
 
 export default function HomePage() {
   return (
@@ -142,8 +143,8 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-32 relative">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+      <section className="container mx-auto px-4 py-12 md:py-20 relative">
+        <div className="max-w-4xl mx-auto text-center relative z-10 mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-medium mb-3">
             <Shield className="w-4 h-4" />
             <span>Non-KYC Cards • No Identity Verification Required</span>
@@ -179,6 +180,12 @@ export default function HomePage() {
                 Learn More
               </Button>
             </Link>
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center mb-20">
+          <div className="w-full max-w-4xl px-2 sm:px-4">
+            <TerminalStatus />
           </div>
         </div>
       </section>
